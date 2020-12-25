@@ -95,6 +95,62 @@
 
     </details>
 
+___
+<br />
+
+## 우선순위 큐(Priority Queue)
+
+<details>
+<summary>정의</summary>
+
+- 우선순위 큐는 데이터를 추가한 순서대로 제거하는 FIFO 특성을 가진 일반적인 큐와는 달리, 데이터 추가는 어떤 순서로해도 상관이 없지만, 제거될 때는 가장 작은 값(우선 순위가 높은) 제거하는 자료구조이다.
+
+</details>
+
+<details>
+<summary>파이썬에서의 구현</summary>
+
+- heapq 라이브러리와 PriorityQueue 라이브러리가 있다
+  - 하지만 heapq가 더 빠르게 동작한다. (대신, thread-safe 보장 안함)
+- 파이썬에서는 Min Heap을 제공하지만, Max Heap은 제공하지 않는다.
+  - 따라서 heapq 라이브러리를 이용하여 Max Heap을 구현해야 할 때는 원소에 (-1)를 곱해줌으로서 부호를 반전 시켜서 사용한다.
+- O(N), O(NlogN)
+- 삽입
+  - heapq.heappush()
+- 삭제(원소 꺼내기)
+  - heapq.heappop()
+- 예제> Heap Sort
+    ```python
+    import heapq
+
+    def heapsort(iterable):
+        h = []
+        result = []
+        # 모든 원소를 차례대로 힙에 삽입
+        for value in iterable:
+            heapq.heappush(h,value) # min heap
+            #heapq.heappush(h,-value)   # max heap
+        # 힙에 삽입된 모든 원소를 차례대로 꺼내어 담기
+        # min heap
+        for i in range(len(h)):
+            result.append(heapq.heappop(h))
+        # max heap  #[-9,-8,-7,-6,-5,-4,-3,-2,-1,0]
+        # for i in range(len(h)):
+        #   result.append(-heapq.heappop(h))
+        return reseult
+    
+    result = heapsort([1,3,5,7,9,2,4,6,8,0])
+    print(result)
+    ```
+    - 결과>
+      - [0,1,2,3,4,5,6,7,8,9] # min heap
+      - [9,8,7,6,5,4,3,2,1,0] # max heap
+
+</details>
+
+
+___
+
 <!--
 코드 - 출력  markdown 형식
 
