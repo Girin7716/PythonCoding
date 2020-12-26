@@ -188,8 +188,75 @@ ___
 
 </details>
 
-
 ___
+<br />
+
+## 파이썬 내장 함수
+<details>
+<summary>수학 수식 계산(eval())</summary>
+
+- eval() : 수학 수식이 문자열 형식으로 들어오면 해당 수식을 계산한 결과 반환.
+
+    ```python
+        result = eval("(3+5)*7")
+        print(result)
+    ```
+    <details>
+    <summary>출력</summary>
+
+    - 56
+  
+    </details>
+
+</details>
+
+<details>
+<summary>리스트 정렬(sorted())</summary>
+
+- sorted() : iterable 객체가 들어왔을 때, 정렬된 결과 반환/
+- key 속성으로 정렬 기준 명시 가능
+- reverse = 정렬된 결과 리스트를 뒤집을지 여부 설정
+
+    ```python
+        result = sorted([9,1,8,5,4])
+        print(result)
+        result = sorted([9,1,8,5,4], reverse = True)
+        print(result)
+    ```
+    
+    <details>
+    <summary>출력</summary>
+
+    - [1, 4, 5, 8, 9]
+    - [9, 8, 5, 4, 1]
+
+    </details>
+
+</details>
+
+<details>
+<summary>리스트 두번째 key 기준으로 정렬하기(sorted())</summary>
+
+- 리스트의 원소로 리스트나 튜플이 존재할 때, 특정한 기준에 따라서 정렬을 수행할 수 있다.
+- 정렬 기준은 key 속성을 이용해 명시 가능.
+
+    ```python
+        result = sorted([('홍길동',35),('이순신',75),('아무개',50)], key= lambda x:x[1], reverse=True)
+        print(result)
+    ```
+
+    <details>
+    <summary>출력</summary>
+
+    - [('이순신', 75), ('아무개',50), ('홍길동', 35)]
+
+    </details>
+
+</details>
+
+---
+
+## bisect
 
 <!--
 코드 - 출력  markdown 형식
