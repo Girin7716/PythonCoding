@@ -255,8 +255,211 @@ ___
 </details>
 
 ---
+<br />
 
-## bisect
+## bisect(이진 탐색)
+<details>
+<summary>biset(이진탐색)</summary>
+
+- bisect 라이브러리는 '정렬된 배열'에서 특정한 원소를 찾아야 할 때 매우 효과적.
+- bisect_left(a, x)
+  - 정렬된 순서를 유지하면서 리스트 a에 데이터 x를 삽입할 가장 왼쪽 인덱스를 찾는 method
+- bisect_right(a, x)
+  - 정렬된 순서를 유지하도록 리스트 a에 데이터 x를 삽입할 가장 오른쪽 인덱스를 찾는 method
+- 위 두 method는 O(logN).
+  - 사용 예시
+    ```python
+    from bisect import bisect_left, bisect_right
+
+    a = [1,2,4,4,8]
+    x = 4
+
+    print(bisect_left(a,x))
+    print(bisect_right(a,x))
+    ```
+    <details>
+    <summary>출력</summary>
+    2<br/>
+    4
+    </details>
+
+- 위 두 method는 '정렬된 리스트'에서 '값이 특정 범위에 속하는 원소의 개수'를 구하고자 할 때, 효과적으로 사용 가능.
+  - 사용 예시
+    ```python
+    from bisect import bisect_left, bisect_right
+
+    # 값이 [left_value,right_value]인 데이터의 개수를 반환하는 함수
+    def count_by_range(a, left_value, right_value):
+        right_index = bisect_right(a,right_value)
+        left_index = bisect_left(a,left_value)
+        return right_index - left_index
+
+    # 리스트 선언
+    a = [1,2,3,3,3,3,4,4,8,9]
+    # 값이 4인 데이터 개수 출력
+    print(count_by_range(a,4,4))
+    # 값이 [-1,3] 범위에 있는 데이터 개수 출력
+    print(count_by_range(a,-1,3))
+    ```
+    
+    <details>
+    <summary>출력</summary>
+    2<br/>
+    6
+    </details>
+
+</details>
+
+---
+<br />
+
+## 여러 값 input()으로 받기
+
+<details>
+<summary>한 line에 서로 다른 형태의 값들을 받기</summary>
+
+- 예제
+    ```python
+    N = int(input())
+    data = []
+    for i in range(N):
+        # 이런식으로 하나하나 받을 수 있음
+        name, korean, english, math = input().split()
+        data.append([name,int(korean),int(english),int(math)])
+
+    #f = sorted(e, key = lambda x : (x[0], -x[1]))
+    data.sort(key=lambda x : (-x[1], x[2], -x[3],x[0]))
+    for i in range(N):
+        print(data[i][0])
+    # input
+    # 12
+    # Junkyu 50 60 100
+    # Sangkeun 80 60 50
+    # Sunyoung 80 70 100
+    # Soong 50 60 90
+    # Haebin 50 60 100
+    # Kangsoo 60 80 100
+    # Donghyuk 80 60 100
+    # Sei 70 70 70
+    # Wonseob 70 70 90
+    # Sanghyun 70 70 80
+    # nsj 80 80 80
+    # Taewhan 50 60 90
+    ```
+  
+
+</details>
+
+---
+<br />
+
+## 정렬(sort)
+
+<details>
+<summary>lambda(key 정렬 정의)</summary>
+
+- ```python
+    data.sort(key=lambda x : (-x[1], x[2], -x[3],x[0]))
+  ```
+  - 이런식으로 정렬 정의 가능
+  - -x[1] : 두번째 key를 내림차순으로 정렬.
+  - x[2] : 세번째 key를 오름차순으로 정렬.
+
+
+- 예제
+    ```python
+    N = int(input())
+    data = []
+    for i in range(N):
+        # 이런식으로 하나하나 받을 수 있음
+        name, korean, english, math = input().split()
+        data.append([name,int(korean),int(english),int(math)])
+
+    # 의미
+    # 1. 국어 점수가 감소하는 순서로
+    # 2. 국어 점수가 같으면 영어 점수가 증가하는 순서로
+    # 3. 국어 점수와 영어 점수가 같으면 수학 점수가 감소하는 순서로
+    # 4. 모든 점수가 같으면 이름이 사전 순으로 증가하는 순서로 (단, 아스키코드에서 대문자는 소문자보다 작으므로 사전 순으로 앞에 옵니다.)
+    data.sort(key=lambda x : (-x[1], x[2], -x[3],x[0]))
+    for i in range(N):
+        print(data[i][0])
+    # input
+    # 12
+    # Junkyu 50 60 100
+    # Sangkeun 80 60 50
+    # Sunyoung 80 70 100
+    # Soong 50 60 90
+    # Haebin 50 60 100
+    # Kangsoo 60 80 100
+    # Donghyuk 80 60 100
+    # Sei 70 70 70
+    # Wonseob 70 70 90
+    # Sanghyun 70 70 80
+    # nsj 80 80 80
+    # Taewhan 50 60 90
+    ```
+    
+    <details>
+    <summary>출력</summary>
+    Donghyuk <br />
+    Sangkeun <br />
+    Sunyoung <br />
+    nsj <br />
+    Wonseob<br />
+    Sanghyun<br />
+    Sei<br />
+    Kangsoo<br />
+    Haebin<br />
+    Junkyu<br />
+    Soong<br />
+    Taewhan<br />
+    </details>
+
+</details>
+
+---
+<br />
+
+## 리스트 다루기(list)
+
+<details>
+<summary>list.count(x) x 개수 세기</summary>
+
+- list.count(x)를 사용하면 해당 list안에 x가 몇개 있는지 return한다.
+- O(N)
+```python
+    a = ['a','b','c','c','c','d','d']
+    b = [1,1,2,2,2,2,3,7,7,8,8,8]
+    print(a.count('c'))
+    print(b.count('b'))
+```
+<details>
+<summary>출력</summary>
+3<br />
+3
+</details>
+
+- 만약 정렬된 리스트에서 count를 구할때 더 빠르게 구하고 싶다면 bisect를 이용하면 O(logN)으로 구할 수 있다.
+```python
+from bisect import bisect_left, bisect_right
+def count_by_range(a,left_value,right_value):
+    right_index = bisect_right(a,right_value)
+    left_index = bisect_left(a,left_value)
+    return right_index - left_index
+
+a = ['a','b','c','c','c','d','d']
+b = [1,1,2,2,2,2,3,7,7,8,8,8]
+print(count_by_range(a,'c','c'))
+print(count_by_range(b,8,8))
+```
+<details>
+<summary>출력</summary>
+3<br />
+3
+</details>
+
+</details>
+
 
 <!--
 코드 - 출력  markdown 형식
@@ -269,3 +472,4 @@ ___
     <summary>출력</summary>
     </details><br /><br />
  -->
+

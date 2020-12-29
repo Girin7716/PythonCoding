@@ -74,3 +74,44 @@
 </details>
 
 ---
+
+## Q23
+
+<details>
+<summary>국영수</summary>
+
+- 링크 : https://www.acmicpc.net/problem/10825
+- 풀이 방법
+  - 조건에 맞춰 정렬함.
+  - 단, 계수 정렬(radix sort)등과 같은 특별한 상황에서의 정렬 알고리즘이 아닐경우 python에서 제공하는 정렬 라이브러리는 최악의 경우 O(NlogN)을 보장하므로 이를 사용하여 정렬했다.
+
+</details>
+
+---
+
+## Q24
+
+<details>
+<summary>안테나</summary>
+
+- 링크 : https://www.acmicpc.net/problem/18310
+- 풀이 방법
+  - 안테나 설치는 입력 받은 리스트의 가운데 값(Median,중간값)에 설치하면 최소로 할 수 있다.
+  - 또한 시간 제한은 1초이며 input은 최대 200,000이므로 N<sup>2</sup>의 경우 40,000,000,000이므로 파이썬의 1초인 20,000,000번을 넘어서 사용하면 안된다.
+  - NlogN의 경우 대략 1,000,000이므로 1초내이다.
+  - 그리하여 sort()를 사용시 괜찮으며, 그 후 중간 값을 구했다.
+
+</details>
+
+---
+
+## Q25
+
+<details>
+<summary>실패율</summary>
+
+- 링크 : https://programmers.co.kr/learn/courses/30/lessons/42889
+- 풀이 방법
+  - stages의 수만큼 반복하며 각각의 스테이지에 해당하는 stages[] 리스트에서의 개수를 구한다(이때, bisect를 사용해서 구함.)
+  - 그리하여 실패율과 해당 stage를 저장하는 rem에 저장하고 분모(denominator)에서 해당 개수를 뺀 후 반복하면서 실패율을 구한다.
+  - 그후 실패율, stage 순으로 정렬한 뒤 answer에는 stage만 담아 return한다.
