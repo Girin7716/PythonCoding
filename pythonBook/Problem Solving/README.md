@@ -115,3 +115,45 @@
   - stages의 수만큼 반복하며 각각의 스테이지에 해당하는 stages[] 리스트에서의 개수를 구한다(이때, bisect를 사용해서 구함.)
   - 그리하여 실패율과 해당 stage를 저장하는 rem에 저장하고 분모(denominator)에서 해당 개수를 뺀 후 반복하면서 실패율을 구한다.
   - 그후 실패율, stage 순으로 정렬한 뒤 answer에는 stage만 담아 return한다.
+
+</details>
+
+---
+
+## Q26
+
+<details>
+<summary>카드 정렬하기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1715
+- 풀이 방법
+  - min heap을 사용해서 min_heap에서 2개의 원소를 pop한 후 더한 결과를 result에 누적시킴과 동시에 min_heap에 더한 결과를 push해주고 min_heap에 원소가 없을때 까지 반복 한 뒤 result를 출력한다.
+
+</details>
+
+---
+
+## Q27
+
+<details>
+<summary>정렬된 배열에서 특정 수의 개수 구하기</summary>
+
+- 풀이 방법
+  - 정렬되어있는 리스트에 O(logN)으로 설계해야함으로 이진 탐색이 적절하다.
+  - 그리하여, bisect 라이브러리를 사용하여 bisect_left()와 bisect_right() 값을 구한뒤 두 값을 뺀 값을 출력한다.
+  - 이때, 출력 값이 0일 경우 -1을 출력한다.
+
+</details>
+
+---
+
+## Q28
+
+<details>
+<summary>고정점 찾기</summary>
+
+- 풀이 방법
+  - 정렬된 리스트가 주어지며 O(logN)의 구현을 해야함으로, linear search가 아닌 binary search로 해결해야한다.
+  - 그러므로, 이진 탐색을 하되 data[mid] == mid 일 경우 고정점을 찾았으므로 mid 값을 반환하고 그 외의 경우는 똑같이 이진탐색을 진행하면 된다.
+
+</details>
