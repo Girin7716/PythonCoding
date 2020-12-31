@@ -363,6 +363,18 @@ def last(array,target,start,end):
 
 </details>
 
+
+<details>
+<summary>이진 탐색 & 파라메트릭 서치(Parametric Search)</summary>
+
+- 파라메트릭 서치
+  - 최적화 문제(문제의 상황을 만족하는 특정 변수의 최솟값, 최댓값을 구하는 문제)를 결정 문제('예 혹은 '아니오'로 답하는 문제')로 바꾸어 해결하는 기법.
+  - '원하는 조건을 만족하는 가장 알맞은 값을 찾는 문제'에 주로 파라메트릭 서치 사용.
+  - ex> 범위 내에서 조건을 만족하는 가장 큰 값을 찾으라는 최적화 문제라면 이진 탐색으로 결정 문제를 해결하면서 범위를 좁혀갈 수 있다.
+  - https://sarah950716.tistory.com/16 -> 예제
+
+</details>
+
 ---
 <br />
 
@@ -476,6 +488,61 @@ def last(array,target,start,end):
 ## 리스트 다루기(list)
 
 <details>
+<summary>리스트 슬라이싱(리스트 원소 뒤집기 가능)</summary>
+
+- 리스트에서 연속적인 위치를 갖는 원소들을 가져와야 할 때 슬라이싱(Slicing) 사용.
+- 대괄호 안에 콜론(:)을 넣어서 시작 인덱스와 (끝 인덱스 -1)을 설정할 수 있다.
+- ex>
+```python
+a = [1,2,3,4,5,6,7,8,9,10]
+print(a[3:5])
+print(a[:4])
+print(a[7:])
+```
+<details>
+<summary>출력</summary>
+[4,5]<br />
+[1,2,3,4]<br />
+[8,9,10]<br />
+</details>
+
+- a[:] == a
+- a[::2] == step(간격)을 2로 해서 뽑아내기
+    ```python
+    print(a[::2])
+    ```
+    <details>
+    <summary>출력</summary>
+    [1,3,5,7,9]
+    </details>
+- a[-1::-2] == 마지막 요소부터 시작해서 앞으로 하나 건너 하나씩 요소를 가져오기.
+    ```python
+    print(a[-1::-2])
+    ```
+    <details>
+    <summary>출력</summary>
+    [10,8,6,4,2]
+    </details>
+- ex2>
+    ```python
+    print(a[1::])
+    print(a[-1::])
+    print(a[-1::-1])
+    print(a[-1::-2])
+    print(a[1::-2])
+    ```
+    <details>
+    <summary>출력</summary>
+    [2, 3, 4, 5, 6, 7, 8, 9, 10] <br />
+    [10]<br />
+    [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]<br />
+    [10, 8, 6, 4, 2]<br />
+    [2]<br />
+    </details>
+
+</details>
+
+<details>
 <summary>list.count(x) x 개수 세기</summary>
 
 - list.count(x)를 사용하면 해당 list안에 x가 몇개 있는지 return한다.
@@ -512,6 +579,38 @@ print(count_by_range(b,8,8))
 </details>
 
 </details>
+
+---
+<br />
+
+## input() 읽는 속도 높이기(sys)
+
+<details>
+<summary>sys.stdin.readline</summary>
+
+- 사용 문구
+
+    ```python
+    import sys
+    input = sys.stdin.readline
+    ```
+
+- 사용예시
+
+    ```python
+    import sys
+    input = sys.stdin.readline
+
+    N,C = map(int,input().split())
+    data = []
+    for i in range(N):
+        data.append(int(input()))
+    data.sort()
+    ```
+
+</details>
+
+---
 
 
 <!--
