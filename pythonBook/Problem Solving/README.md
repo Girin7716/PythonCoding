@@ -157,3 +157,37 @@
   - 그러므로, 이진 탐색을 하되 data[mid] == mid 일 경우 고정점을 찾았으므로 mid 값을 반환하고 그 외의 경우는 똑같이 이진탐색을 진행하면 된다.
 
 </details>
+
+---
+
+## Q29
+
+<details>
+<summary>공유기 설치</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2110
+
+- 풀이 방법
+  - 입력 값이 1,000,000,000개에 시간 제한은 2초라서 일단 O(logN)인 이진 탐색을 생각했다.
+  - 주어지는 리스트에서 원소들간의 min_gap과 max_gap을 구한 후 이를 이진 탐색을 하여서 공유기 설치수가 C이상을 만족하는 것 중 가장 작은 값(mid_gap)을 구했다.
+  - 이때, max_gap을 구할때는 data[-1] - data[0]이 맞지만, min_gap을 구할때는 data[1] - data[0]이 아니다. 왜냐하면 (1,7,8,9,10) 같은 경우 실제로는 min_gap은 1이기때문에 조심해야한다.
+</details>
+
+---
+
+## Q30
+
+<details>
+<summary>가사 검색</summary>
+
+- 링크 : https://programmers.co.kr/learn/courses/30/lessons/60060
+- 풀이 방법
+  - 정확성은 naive하게 풀면 그냥 풀 수 있지만 효율적으로 풀기 위해서는 이진 탐색을 이용하여 조건에 만족하는 개수를 구해야한다.
+  - 그리하여 words 리스트를 일단 문자열에 따라 나눈다(new_words). 또한, '?'가 앞에 있는 경우 위에서 생각한대로 구하기 힘드므로 거꾸로 뒤집은 버전인 reverse_words도 만든다([::-1]).
+  - 그리고 이진탐색을 위해서 new_words와 reverse_words를 정렬한다.
+  - 그리고는 queries를 반복문 돌면서 하나하나 검사한다.
+  - 이때 q[0] == '?' 일경우 reverse_words로 개수를 파악하고 그 외에는 new_words로 개수를 파악한다. 이때, q에서의 ???는 left 값에는 '?' -> 'a'로 바꾸고, right 값에는 '?' -> 'z'로 바꿔줌으로써 모든 범위를 알 수 있게했다.
+  - 위 결과 값으로 나온 result를 answer에 추가한다.
+  - 모든 과정이 끝나면 answer을 return 한다.
+
+</details>
