@@ -191,3 +191,34 @@
   - 모든 과정이 끝나면 answer을 return 한다.
 
 </details>
+
+---
+
+## Q31
+
+<details>
+<summary>금광</summary>
+
+- 풀이 방법
+  - 주어진 리스트에서 data[0:n][m-1]를 queue에 넣은 후 bfs를 돌면서 리스트 범위를 벗어나지 않으며 answer[nx][ny] < answer[x][y]+data[nx][ny] 인 경우 answer[nx][ny] = answer[x][y]+data[nx][ny]를 하면서 가장 큰 값만 남기면서 움직이는 조건(3가지)를 실행했다.
+  - bfs가 끝난 후, data[0:n][0] 중 가장 큰 값을 출력한다.
+  - 하지만 이게 효율적으로 푼거 같지는 않다.
+
+- 풀이 방법2
+  - 위와 비슷하지만 리스트를 한 column씩 3 방향을 움직이면서 가장 큰 값만을 저장하면 더 빠르게 해결할 수 있을것 같다.
+
+</details>
+
+---
+
+## Q32
+
+<details>
+<summray>정수 삼각형</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1932
+- 풀이 방법
+  - 위에서 아래로 내려오면서 한 줄씩 확인하면서 가장 큰 값을 밑에 줄에 적은 후, 가장 아랫줄에서 큰 값을 출력한다.
+
+
+</details>
