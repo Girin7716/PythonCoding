@@ -378,46 +378,6 @@ def last(array,target,start,end):
 ---
 <br />
 
-## 여러 값 input()으로 받기
-
-<details>
-<summary>한 line에 서로 다른 형태의 값들을 받기</summary>
-
-- 예제
-    ```python
-    N = int(input())
-    data = []
-    for i in range(N):
-        # 이런식으로 하나하나 받을 수 있음
-        name, korean, english, math = input().split()
-        data.append([name,int(korean),int(english),int(math)])
-
-    #f = sorted(e, key = lambda x : (x[0], -x[1]))
-    data.sort(key=lambda x : (-x[1], x[2], -x[3],x[0]))
-    for i in range(N):
-        print(data[i][0])
-    # input
-    # 12
-    # Junkyu 50 60 100
-    # Sangkeun 80 60 50
-    # Sunyoung 80 70 100
-    # Soong 50 60 90
-    # Haebin 50 60 100
-    # Kangsoo 60 80 100
-    # Donghyuk 80 60 100
-    # Sei 70 70 70
-    # Wonseob 70 70 90
-    # Sanghyun 70 70 80
-    # nsj 80 80 80
-    # Taewhan 50 60 90
-    ```
-  
-
-</details>
-
----
-<br />
-
 ## 정렬(sort)
 
 <details>
@@ -583,10 +543,48 @@ print(count_by_range(b,8,8))
 ---
 <br />
 
-## input() 읽는 속도 높이기(sys)
+## input()관련
+
+
+<details> 
+<summary>여러 값 input()으로 받기</summary>
+
+- 한 line에 서로 다른 형태의 값들을 받기
+
+- 예제
+    ```python
+    N = int(input())
+    data = []
+    for i in range(N):
+        # 이런식으로 하나하나 받을 수 있음
+        name, korean, english, math = input().split()
+        data.append([name,int(korean),int(english),int(math)])
+
+    #f = sorted(e, key = lambda x : (x[0], -x[1]))
+    data.sort(key=lambda x : (-x[1], x[2], -x[3],x[0]))
+    for i in range(N):
+        print(data[i][0])
+    # input
+    # 12
+    # Junkyu 50 60 100
+    # Sangkeun 80 60 50
+    # Sunyoung 80 70 100
+    # Soong 50 60 90
+    # Haebin 50 60 100
+    # Kangsoo 60 80 100
+    # Donghyuk 80 60 100
+    # Sei 70 70 70
+    # Wonseob 70 70 90
+    # Sanghyun 70 70 80
+    # nsj 80 80 80
+    # Taewhan 50 60 90
+    ```
+  
+</details>
+
 
 <details>
-<summary>sys.stdin.readline</summary>
+<summary>input() 속도 높이기 sys.stdin.readline</summary>
 
 - 사용 문구
 
@@ -607,6 +605,25 @@ print(count_by_range(b,8,8))
         data.append(int(input()))
     data.sort()
     ```
+
+</details>
+
+<details>
+<summary>한 줄 문자열 -> 2차원 리스트로 input()</summary>
+
+- 예시
+```python
+for tc in range(int(input())):  # 테스트 케이스 입력 2
+    n,m = map(int,input().split())  # 3 4
+    array = list(map(int,input().split()))  # 1 3 3 2 2 1 4 1 0 6 4 7
+
+    # 다이나믹 프로그래밍을 위한 2차원 DP 테이블 초기화
+    dp = []
+    index = 0
+    for i in range(n):
+        dp.append(array[index:index+m]) # 한 줄 문자열(1차원 리스트) -> 2차원 리스트로 바꾸기
+        index += m
+```
 
 </details>
 
