@@ -219,6 +219,17 @@
 - 링크 : https://www.acmicpc.net/problem/1932
 - 풀이 방법
   - 위에서 아래로 내려오면서 한 줄씩 확인하면서 가장 큰 값을 밑에 줄에 적은 후, 가장 아랫줄에서 큰 값을 출력한다.
+</details>
 
+---
+
+## Q34
+
+<details>
+<summary><병사 배치하기></summary>
+
+- 링크 : https://www.acmicpc.net/problem/18353
+- 풀이 방법
+  - dp = [1] * n 을 만든 후, 앞에서부터 차례대로 검사하면서 전투력이 높을 경우 dp[i] = max(dp[i],dp[j]+1)의 점화식을 이용해서 구함. 그러면 max(dp)는 열외를 가장 적게한 병사 수가 나오면 출력에는 N-max(dp)를 하면 열외 숫자가 나온다.
 
 </details>
