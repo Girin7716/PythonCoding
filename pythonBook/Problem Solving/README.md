@@ -246,3 +246,23 @@
   - 숫자를 1부터 끝까지 검사하는것이 아닌, 2,3,5에 곱하는 idx숫자를 늘리면서 ugly에 추가하는 방식으로 진행함.
 
 </details>
+
+---
+
+## Q36
+
+<details>
+<summary>편집 거리</summary>
+
+- 정보검색 강의때 배웠던 기억이 났다.
+- 풀이 방법:
+  - 초기에 리스트를 아래와 같이 초기화한다.
+    - <img src="./readme_img/Q36_init.JPG" width="200" height="200">
+  - 그 후 row 하나씩 아래의 조건에 맞춰 검사한다.
+    - 해당 좌표의 알파벳들이 같은 경우, 대각선의 수를 해당 좌표에 집어넣는다.
+    - 해당 좌표의 알파벳들이 다른 경우, (왼쪽,대각선 위, 위)의 숫자 중 가장 작은 값 + 1 한 수를 해당 좌표에 집어넣는다.
+    - <img src="./readme_img/Q36_ing.JPG" width="200" height="200">
+  - 모두 검사를 마치면 제일 마지막 원소를 출력하면 insert,delete,replace의 총 합이 나온다.
+    - <img src="./readme_img/Q36_final.JPG" width="200" height="200"> 
+
+</details>
