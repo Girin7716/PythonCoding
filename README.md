@@ -629,6 +629,276 @@ for tc in range(int(input())):  # 테스트 케이스 입력 2
 
 ---
 
+<br/>
+
+## 최단 경로 알고리즘
+
+<details>
+<summary>최단 경로 알고리즘</summary>
+
+- 그래프상에서 가장 짧은 경로를 찾는 알고리즘.
+- 겉보기에 최단 경로 문제로 보이지 않더라도, 최소 비용을 구해야 하는 다양한 문제에 최단 경로 알고리즘을 적용할 수 있는 경우가 많다.
+- 
+    |알고리즘 종류|시간 복잡도|구현 난이도|역할|
+    |------|---|---|----|
+    |다익스트라|O(*ElogV*)|hard|한 지점에서 다른 모든 지점까지의 최단 경로 계산.|
+    |플로이드 워셜|O(*V<sup>3</sup>)*|easy|모든 지점에서 다른 모든 지점까지의 최단 경로 계산.
+
+</details>
+
+<details>
+<summary>다익스트라 알고리즘</summary>
+
+- '단계마다 방문하지 않은 노드 중에서 가장 최단 거리가 짧은 노드를 선택'한 뒤, 그 노드를 거쳐 가는 경우를 확인하여 최단 거리 갱신
+- 우선순위 큐 사용
+- '음의 edge(간선)'이 없을 때 정상적으로 동작
+- 알고리즘 원리에 대한 간략한 설명
+    1. 출발 노드 설정. 
+    2. 최단 거리 테이블 초기화
+    3. 방문하지 않은 노드 중에서 최단 거리가 가장 짧은 노드 선택.
+    4. 해당 노드를 거쳐 다른 노드로 가는 비용을 계산하여 최단 거리 테이블 갱신
+    5. 위 과정에서 3과 4번을 반복.
+  - 최단 경로를 구하는 과정에서 '각 노드에 대한 현재까지의 최단 거리' 정보를 항상 1차원 리스트에 저장하며 리스트를 계속 갱신한다는 특징이 있다.(이러한 1차원 리스트를 최단 거리 테이블이라고 한다.)
+- 다익스트라 알고리즘 구현 방법 2가지
+    1. 구현하기 쉽지만 느리게 동작하는 코드
+        - O(*V<sup>2</sup>*) ==> 노드의 개수가 5,000개 이하라면 가능
+        - 단계마다 '방문하지 않은 노드 중에서 최단 거리가 가장 짧은 노드를 선택'하기 위해 매 단계마다 1차원 리스트의 모든 원소를 확인(순차 탐색)
+        - 
+        ```python
+        import sys
+        input = sys.stdin.readline
+        INF = int(1e9)  # 10억
+
+        n,m = map(int,input().split())  # 노드의 개수, 간선의 개수
+        start = int(input())    # 시작 노드 번호 입력받기
+        graph = [[] for i in range(n+1)]    # 각 노드에 연결되어 있는 노드에 대한 정보를 담는 리스트 만들기
+        visited = [False] * (n+1)   # 방문한 적이 있는지 체크하는 목적의 리스트를 만들기
+        distance = [INF] * (n+1)    # 최단 거리 테이블을 모두 무한으로 초기화
+
+        # 모든 간선 정보를 입력받기
+        for _ in range(m):
+        a,b,c = map(int,input().split())
+        # a번 노드에서 b번 노드로 가는 비용이 c라는 의미
+        graph[a].append((b,c))
+
+        # 방문하지 않은 노드 중에서, 가장 최단 거리가 짧은 노드의 번호를 반환
+        def get_smallest_node():
+        min_value = INF
+        index = 0   # 가장 최단 거리가 짧은 노드(인덱스)
+        for i in range(1,n+1):
+        if distance[i] < min_value and not visited[i]:
+            min_value = distance[i]
+            index = i
+        return index
+
+        def dijkstra(start):
+        # 시작 노드에 대해서 초기화
+        distance[start] = 0
+        visited[start] = True
+        for j in graph[start]:
+        distance[j[0]] = j[1]
+        # 시작 노드를 제외한 전체 (n-1)개의 노드에 대해 반복
+        for i in range(n-1):
+        # 현재 최단 거리가 가장 짧은 노드를 꺼내서, 방문 처리
+        now = get_smallest_node()
+        visited[now] = True
+        # 현재 노드와 연결된 다른 노드를 확인
+        for j in graph[now]:
+            cost = distance[now] + j[1]
+            # 현재 노드를 거쳐서 다른 노드로 이동하는 거리가 더 짧은 경우
+            if cost < distance[j[0]]:
+                distance[j[0]] = cost
+
+        # 다익스트라 알고리즘 수행
+        dijkstra(start)
+
+        # 모든 노드로 가기 위한 최단 거리 출력
+        for i in range(1,n+1):
+        # 도달할 수 없는 경우, 무한이라고 출력
+        if distance[i] == INF:
+        print("무한")
+        # 도달할 수 있는 경우 거리 출력
+        else:
+        print(distance[i])
+
+        # input
+        # 6 11
+        # 1
+        # 1 2 2
+        # 1 3 5
+        # 1 4 1
+        # 2 3 3
+        # 2 4 2
+        # 3 2 3
+        # 3 6 5
+        # 4 3 3
+        # 4 5 1
+        # 5 3 1
+        # 5 6 2    
+
+        ```
+        - 출력<br/>
+            0<br/>
+            2<br/>
+            3<br/>
+            1<br/>
+            2<br/>
+            4<br/>
+    2. 구현하기에 조금 더 까다롭지만 빠르게 동작하는 코드
+        - O(*ElogV*)
+        - Heap (우선순위 큐) 사용. (-> 그러므로 선형적 탐색이 아니다 == 시간 복잡도 축소)
+          - 다익스트라 최단 경로 알고리즘에서는 비용이 적은 노드를 우선하여 방문하므로 최소 힙 구조를 기반으로 하는 파이썬의 우선순위 큐 라이브러리(heapq)를 그대로 사용하면 적합.
+        - 현재 가장 가까운 노드를 저장하기 위한 목적으로만 우선순위 큐를 추가로 이용(즉, 앞서 get_smllest_node()함수는 필요가 없다.)
+        - '최단 거리가 가장 짧은 노드'를 선택하는 과정을 다익스트라 최단 경로 함수 안에서 우선순위 큐를 이용하는 방식으로 대체.
+
+        ```python
+
+        import heapq
+        import sys
+        input = sys.stdin.readline
+        INF = int(1e9)
+
+        n,m = map(int,input().split())  # 노드의 개수, 간선의 개수
+        start = int(input())    # 시작 노드 번호 입력받기
+        graph = [[] for i in range(n+1)]    # 각 노드에 연결되어 있는 노드에 대한 정보를 담는 리스트 만들기
+        distance = [INF] * (n+1)    # 최단 거리 테이블을 모두 무한으로 초기화
+
+        # 모든 간선 정보 입력받기
+        for _ in range(m):
+            a,b,c = map(int,input().split())
+            # a번 노드에서 b번 노드로 가는 비용이 c라는 의미
+            graph[a].append((b,c))
+
+        def dijkstra(start):
+            q = []
+            # 시작 노드로 가기 위한 최단 경로는 0으로 설정하여 ,큐에 삽입
+            heapq.heappush(q,(0,start))
+            distance[start] = 0
+            while q:    # 큐가 비어있지 않다면
+                # 가장 최단 거리가 짧은 노드에 대한 정보 꺼내기
+                dist,now = heapq.heappop(q)
+                # 현재 노드가 이미 처리된 적이 있는 노드라면 무시
+                if distance[now] < dist:
+                    continue
+                # 현재 노드와 연결된 다른 인접한 노드들을 확인
+                for i in graph[now]:
+                    cost = dist + i[1]
+                    # 현재 노드를 거쳐서, 다른 노드로 이동하는 거리가 더 짧은 경우
+                    if cost < distance[i[0]]:
+                        distance[i[0]] = cost
+                        heapq.heappush(q,(cost,i[0]))
+
+        dijkstra(start)
+
+        for i in range(1,n+1):
+        if distance[i] == INF:
+        print("무한")
+        else:
+        print(distance[i])
+
+        # 6 11
+        # 1
+        # 1 2 2
+        # 1 3 5
+        # 1 4 1
+        # 2 3 3
+        # 2 4 2
+        # 3 2 3
+        # 3 6 5
+        # 4 3 3
+        # 4 5 1
+        # 5 3 1
+        # 5 6 2
+
+        ```
+        - 출력<br/>
+            0<br/>
+            2<br/>
+            3<br/>
+            1<br/>
+            2<br/>
+            4<br/>
+
+</details>
+
+<details>
+<summary>플로이드 워셜 알고리즘</summary>
+
+- '모든 지점에서 다른 모든 지점까지의 최단 경로 구해야 하는 경우'
+- DP 이용
+- '단계마다 거쳐 가는 노드'를 기준으로, 최단 거리 테이블 갱신
+- 점화식 : *D*<sub>ab</sub> = *min*(*D*<sub>ab</sub>, *D*<sub>ak</sub>+*D*<sub>kb</sub>)
+- 다음과 같이 3중 반복문으로 구현 가능
+    ```python
+    for k in range(1,n+1):
+        for a in range(1,n+1):
+            for b in range(1,n+1):
+                adj[a][b] = min(adj[a][b], adj[a][k]+adj[k][b])
+    ```
+- 플로이드 워셜 알고리즘 소스코드
+    ```python
+
+    INF = int(1e9)
+    import sys
+    input = sys.stdin.readline
+
+    # 노드의 개수 및 간선의 개수를 입력받기
+    n = int(input())
+    m = int(input())
+    # 2차원 리스트(그래프 표현)를 만들고, 모든 값을 무한으로 초기화
+    graph = [[INF] * (n+1) for _ in range(n+1)]
+
+    # 자기 자신에서 자기 자신으로 가는 비용은 0으로 초기화
+    for a in range(1,n+1):
+        for b in range(1,n+1):
+            if a == b:
+                graph[a][b] = 0
+
+    # 각 간선에 대한 정보를 입력받아, 그 값으로 초기화
+    for _ in range(m):
+        # A에서 B로 가는 비용은 C라고 설정
+        a,b,c = map(int,input().split())
+        graph[a][b] = c
+
+    # 점화식에 따라 플로이드 워셜 알고리즘을 수행
+    for k in range(1,n+1):
+        for a in range(1,n+1):
+            for b in range(1,n+1):
+                graph[a][b] = min(graph[a][b], graph[a][k]+graph[k][b])
+
+    # 수행된 결과를 출력
+    for a in range(1,n+1):
+        for b in range(1,n+1):
+            # 도달할 수 없는 경우, 무한이라고 출력
+            if graph[a][b] == INF:
+                print("무한", end = ' ')
+            # 도달할 수 있는 경우, 거리 출력
+            else:
+                print(graph[a][b],end = ' ')
+        print()
+
+    # 4
+    # 7
+    # 1 2 4
+    # 1 4 6
+    # 2 1 3
+    # 2 3 7
+    # 3 1 5
+    # 3 4 4
+    # 4 3 2
+
+    ```
+    - 출력<br/>
+            0 4 8 6 <br/>
+            3 0 7 9 <br/>
+            5 9 0 4 <br/>
+            7 11 2 0 <br/>
+
+</details>
+
+---
+
+<br/>
 
 <!--
 코드 - 출력  markdown 형식
