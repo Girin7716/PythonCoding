@@ -750,6 +750,19 @@ for tc in range(int(input())):  # 테스트 케이스 입력 2
           - 다익스트라 최단 경로 알고리즘에서는 비용이 적은 노드를 우선하여 방문하므로 최소 힙 구조를 기반으로 하는 파이썬의 우선순위 큐 라이브러리(heapq)를 그대로 사용하면 적합.
         - 현재 가장 가까운 노드를 저장하기 위한 목적으로만 우선순위 큐를 추가로 이용(즉, 앞서 get_smllest_node()함수는 필요가 없다.)
         - '최단 거리가 가장 짧은 노드'를 선택하는 과정을 다익스트라 최단 경로 함수 안에서 우선순위 큐를 이용하는 방식으로 대체.
+        - 기본적으로 있어야하는 자료
+        ```python
+        import heapq
+        n,m = map(int,input().split())
+        start = int(input())
+        graph = [[] for i in range(n+1)]
+        distance = [INF] * (n+1)
+
+        graph[a].append((b,c))  # -> 이렇게가 다익스트라
+        #graph[a][b] = c        # -> 이렇게가 플로이드
+        
+        heapq.heappush(q,(0,start))
+        ```
 
         ```python
 

@@ -214,7 +214,7 @@
 ## Q32
 
 <details>
-<summray>정수 삼각형</summary>
+<summary>정수 삼각형</summary>
 
 - 링크 : https://www.acmicpc.net/problem/1932
 - 풀이 방법
@@ -264,5 +264,65 @@
     - <img src="./readme_img/Q36_ing.JPG" width="200" height="200">
   - 모두 검사를 마치면 제일 마지막 원소를 출력하면 insert,delete,replace의 총 합이 나온다.
     - <img src="./readme_img/Q36_final.JPG" width="200" height="200"> 
+
+</details>
+
+---
+
+## Q37
+
+<details>
+<summary>플로이드</summary>
+
+- 링크 : https://www.acmicpc.net/problem/11404
+- 풀이 방법:
+  - 전형적인 플로이드 워셜 문제이다.
+  - 2차원 리스트인 graph를 node 개수 만큼(N*N) INF(무한)으로 초기화한다.
+  - 그 후, 한 노드(a)에서 다른 노드(b)로 가는 비용(c)를 graph에 대입해준다.
+    - graph[a-1][b-1] = c
+      - 이때, 노드를 0번부터 시작한다고 생각하고 풀었다.
+    - 하지만 input 예시를 자세히보면 3 5 1 와 3 5 10과 같이 비용만 다른 경우가 있다. 이를 해결하기 위해서 큰 비용은 버리고 작은 비용만 graph에 넣는다.
+  - 그 후, graph[a][b] = min(graph[a][b],graph[a][k]+graph[k][b]) 를 3중 for문을 돌려서 구한 후 graph를 출력하면 모든 도시의 쌍(A,B)에 대해서 도시 A에서 B로 가는데 필요한 비용의 최솟값을 구할 수 있다.
+
+</details>
+
+---
+
+## Q38
+
+<details>
+<summary>정확한 순위</summary>
+  
+- 풀이 방법
+  - 학생1 < 학생2 일 경우, 학생1->학생2로 연결되어있으므로 그래프가 만들어진다.
+  - 이때, 각 edge의 weight를 1로 부여한다음 플로이드 워셜 알고리즘을 이용해서 모든 경우의 최단 경로를 구한다.
+  - 그 후, A->(그외 모든 노드들) or (그외 모든 노드들)->A일 경우 A는 고정된 순위를 가진다는 의미를 가진다.
+    
+    ```python
+    for i in range(N):
+    count = 0
+    for j in range(N):
+        if graph[i][j] != INF or graph[j][i] != INF:
+          count+=1
+    if count == N:
+        result+=1
+    ``` 
+    그래서 모든 노드(자신을 포함해서)들이 자기와 연관이 되어있다면 이는 순위가 결정될 수 있음으로 result+=1을 한 뒤 최종적으로 result를 반환한다.
+
+</details>
+
+---
+
+## Q39
+
+<details>
+<summary>화성 탐사</summary>
+
+- 문제에서 '출발 지점에서 목표 지점까지 이동할 때 항상 최적의 경로를 찾도록' 이라 했으니, 다익스트라 알고리즘을 사용할 것이다.
+- 문제에서 주어진 이차원 리스트를 graph로 생각한 뒤, 움직일 수 있는 경우가 상,하,좌,우 이므로 graph의 각 원소는 상,하,좌,우로 연결된 그래프라고 생각하고 진행한다.
+- graph가 이차원 리스트이므로 최단거리 리스트인 distance도 이차원리스트로 만든다.
+  - distance[[INF for _ in range(N)] for _ in range(N)]
+- 그 후 (0,0,graph[0][0])을 우선순위 큐에 넣은 다음, 다익스트라를 진행한다(우선순위 큐 사용)
+- 더이상 우선순위큐에서 꺼낼 원소가 없다면 print(distance[N-1][N-1]) 한다. 이 의미는 결국 시작점에서 (N-1,N-1)의 최단 거리를 출력한다는 의미가 된다.
 
 </details>
