@@ -913,6 +913,248 @@ for tc in range(int(input())):  # 테스트 케이스 입력 2
 
 <br/>
 
+## 그래프  이론
+
+<details>
+<summary>서로소 집합(Disjoint Sets)</summary>
+
+- 서로소 집합 == 공통 원소가 없는 집합
+- 서로소 집합 알고리즘
+  - union-find(합치기 찾기) 연산으로 구성
+    - union : 2개의 원소가 포함된 집합을 하나의 집합으로 합치는 연산.
+    - find : 특정한 원소가 속한 집합이 어떤 집합인지 알려주는 연산.
+  - 모든 노드는 자신이 속한 집합을 찾을 때 루트 노드를 재귀적으로 찾음.
+  - 최소 신장 트리(minimum spanning tree)를 찾는 크루스칼 알고리즘에서 사용
+- 서로소 집합 자료구조
+  - 서로소 부분 집합들로 나누어진 원소들의 데이터를 처리하기 위한 자료구조
+  - 알고리즘
+    1. union 연산을 확인하여, 서로 연겨로딘 두 노드 A, B를 확인.
+       1. A와 B의 root 노드 A',B'를 각각 찾는다.
+       2. A'를 B'의 부모 노드로 설정한다.(B'가 A'를 가리키도록 함) 
+    2. 모든 union 연산을 처리할 때까지 1번 반복.
+- 개선된 서로소 집합 알고리즘 소스코드
+    
+    ```python
+    # 특정 원소가 속한 집합을 찾기
+    def find_parent(parent,x):
+        # 루트 노드가 아니라면, 루트 노드를 찾을 때까지 재귀적으로 호출
+        if parent[x] != x:
+            parent[x] = find_parent(parent,parent[x])
+        return parent[x]
+
+    # 두 원소가 속한 집합을 찾기
+    def union_parent(parent,a,b):
+        a = find_parent(parent,a)
+        b = find_parent(parent,b)
+        if a<b:
+            parent[b] = a
+        else:
+            parent[a] = b
+
+    # 노드의 개수와 간선(union 연산)의 개수 입력받기
+    v, e = map(int,input().split())
+    parent = [0] * (v+1)    # 부모 테이블 초기화
+
+    # 부모 테이블상에서, 부모를 자기 자신으로 초기화
+    for i in range(1,v+1):
+        parent[i] = i
+
+    # union 연산을 각각 수행
+    for i in range(e):
+        a,b = map(int,input().split())
+        union_parent(parent,a,b)
+
+    # 각 원소가 속한 집합 출력
+    print('각 원소가 속한 집합: ',end='')
+    for i in range(1,v+1):
+        print(find_parent(parent,i),end=' ')
+
+    print()
+
+    # 부모 테이블 내용 출력
+    print('부모 테이블: ', end='')
+    for i in range(1,v+1):
+        print(parent[i],end=' ')
+        
+    # 6 4
+    # 1 4
+    # 2 3
+    # 2 4
+    # 5 6
+    ```
+    - 출력<br/>
+        각 원소가 속한 집합: 1 1 1 1 5 5 <br/>
+        부모 테이블: 1 1 1 1 5 5 <br/>
+- 노드의 개수가 V, 최대 V-1개의 union 연산, M개의 find 연산일때, *O(V+E(1+log<sub>2-M/V</sub>V))*
+
+</details>
+
+<details>
+<summary>서로소 집합을 활용한 사이클 판별</summary>
+
+- 무방향 그래프 내에서의 사이클 판별 가능(방향 그래프 적용못함).
+  - DFS 이용하여 판별
+- 알고리즘
+  1. 각 간선을 확인하며 두 노드의 루트 노드를 확인.
+     1. 루트 노드가 서로 다르다면 두 노드에 대하여 union 연산 수행.
+     2. 루트 노드가 서로 같다면 사이클이 발생한 것. 
+  2. 그래프에 포함되어 있는 모든 간선에 대하여 1번 과정을 반복.
+- 그래프에 포함되어 있는 간선(edge)의 개수가 E개일 때 모든 간선을 하나씩 확인하며, 매 간선에 대하여 union 및 find 함수를 호출하는 방식으로 동작.
+
+```python
+# 노드의 개수와 간선(union 연산)의 개수 입력받기
+v,e = map(int,input().split())
+parent = [0] * (v+1)
+
+# 부모 테이블상에서, 부모를 자기 자신으로 초기화
+for i in range(1,v+1):
+    parent[i] = i
+cycle = False   # 사이클 발생 여부
+
+for i in range(e):
+    a, b = map(int,input().split())
+    # 사이클이 발생한 경우 종료
+    if find_parent(parent,a) == find_parent(parent,b):
+        cycle = True
+        break
+    # 사이클이 발생하지 않았다면 union 수행
+    else:
+        union_parent(parent,a,b)
+
+```
+
+</details>
+
+<details>
+<summary>신장 트리(spanning tree)</summary>
+</details>
+
+- 신장 트리
+  - 하나의 그래프가 있을 때 모든 노드를 포함하는 부분 그래프를 의미.
+  - '모든 섬을 도로를 이용해 연결하는 문제' 등에서 사용될 수 있다.
+- ![spanning_tree](./readme_img/spanning_tree.JPG)
+
+<details>
+<summary>크루스칼 알고리즘</summary>
+
+- 그리디 알고리즘으로 분류
+- 최소한의 비용으로 신장 트리를 찾아야할때 사용
+  - ex> N개의 도시가 존재하는 상황에서 두 도시 사이에 도롤르 놓아 전체 도시가 서로 연결될 수 있게 도로를 설치하는 경우 모든 도시를 '연결'할 때, 최소한의 비용으로 연결할려면...?
+- 알고리즘
+  1. 간선(edge) 데이터를 비용에 따라 오름차순 정렬.
+  2. 간선을 하나씩 확인하며 현재의 간선이 사이클을 발생시키는지 확인.
+     1. 사이클이 발생하지 않는 경우 최소 신장 트리에 포함.
+     2. 사이클이 발생하는 경우 최소 신장 트리에 포함X.
+  3. 모든 간선에 대하여 2번의 과정을 반복. 
+
+- 크루스칼 알고리즘 소스코드
+
+    ```python
+    v, e = map(int,input().split())
+    parent = [0]*(v+1)
+
+    # 모든 간선을 담을 리스트와 최종 비용을 담을 변수
+    edges = []
+    result = 0
+
+    for i in range(1,v+1):
+        parent[i] = i
+
+    for _ in range(e):
+        a,b,cost = map(int,input().split())
+        # 비용순으로 정렬하기 위해서 튜플의 첫 번째 원소를 비용으로 설정
+        edges.append((cost,a,b))
+
+    # 간성을 비용순으로 정렬
+    edges.sort()
+
+    # 간선을 하나씩 확인하며
+    for edge in edges:
+        cost,a,b = edge
+        # 사이클이 발생하지 않는 경우에만 집합에 포함
+        if find_parent(parent,a) != find_parent(parent,b):
+            union_parent(parent,a,b)
+            result += cost
+    ```
+- *O(ElogE)*
+  - 왜냐하면, 크루스칼 알고리즘에서 시간이 가장 오래 걸리는 부분이 간선을 정렬하는 작업이기 때문이다.
+
+</details>
+
+<details>
+<summary>위상 정렬 알고리즘(topology sort)</summary>
+
+- 큐 혹은 스택 활용해야함.
+- 방향 그래프의 모든 노드들을 방향성에 거스르지 않도록 순서대로 나열하는 정렬 기법.
+- ex> '선수과목을 고려한 학습 순서 설정 문제'
+- *O(V+E)*
+- 알고리즘
+  1. 진입차수가 0인 노드를 큐에 넣는다.
+  2. 큐가 빌 때까지 다음의 과정을 반복.
+     1. 큐에서 원소를 꺼내 해당 노드에서 출발하는 간선을 그래프에서 제거한다.
+     2. 새롭게 진입차수가 0이 된 노드를 큐에 넣는다.
+  3. 만약 모든 원소를 방문하기 전에 큐가 빈다면 사이클이 존재하는 거임. 
+- 소스코드
+  
+    ```python
+    from collections import deque
+
+    v,e = map(int,input().split())
+    # 모든 노드에 대한 진입차수는 0으로 초기화
+    indegree = [0] * (v+1)
+    # 각 노드에 연결된 간선 정보를 담기 위한 연결 리스트(그래프) 초기화
+    graph = [[] for i in range(v+1)]
+
+    for _ in range(e):
+        a,b = map(int,input().split())
+        graph[a].append(b)
+        # 진입차수 1 증가
+        indegree[b] += 1
+
+    # 위상 정렬 함수
+    def topology_sort():
+        result = [] # 알고리즘 수행 결과를 담을 리스트
+        q = deque()
+
+        # 처음 시작할 때는 진입차수가 0인 노드를 큐에 삽입
+        for i in range(1,v+1):
+            if indegree[i] == 0:
+                q.append(i)
+        # 큐가 빌 때까지 반복
+        while q:
+            now = q.popleft()
+            result.append(now)
+            # 해당 원소와 연결된 노드들의 진입차수에서 1 빼기
+            for i in graph[now]:
+                indegree[i] -= 1
+                # 새롭게 진입차수가 0이 되는 노드를 큐에 삽입
+                if indegree[i] == 0:
+                    q.append(i)
+
+        # 위상 정렬을 수행한 결과 출력
+        for i in result:
+            print(i, end=' ')
+
+    topology_sort()
+
+    # 7 8
+    # 1 2
+    # 1 5
+    # 2 3
+    # 2 6
+    # 3 4
+    # 4 7
+    # 5 6
+    # 6 4
+    ```
+- *O(V+E)*
+
+
+</details>
+---
+
+<br/>
+
 <!--
 코드 - 출력  markdown 형식
 
