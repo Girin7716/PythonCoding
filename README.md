@@ -1027,13 +1027,13 @@ for i in range(e):
 
 <details>
 <summary>신장 트리(spanning tree)</summary>
-</details>
+
 
 - 신장 트리
   - 하나의 그래프가 있을 때 모든 노드를 포함하는 부분 그래프를 의미.
   - '모든 섬을 도로를 이용해 연결하는 문제' 등에서 사용될 수 있다.
 - ![spanning_tree](./readme_img/spanning_tree.JPG)
-
+</details>
 <details>
 <summary>크루스칼 알고리즘</summary>
 
