@@ -408,3 +408,19 @@
 </details>
 
 ---
+
+## Q45
+
+<details>
+<summary>최종 순위</summary>
+
+- 링크 : https://www.acmicpc.net/problem/3665
+- 풀이 방법
+- '정해진 우선순위에 맞게 전체 팀들의 순서를 나열해야 한다'라는 점에서 topology sort 알고리즘을 떠올렸다.
+- graph로는 '자기보다 낮은 등수를 가진 팀을 가리키도록' 방향 그래프를 만들었다.
+- 상대적인 순위가 바뀌게 되면 그에 따라 방향을 반대로 변경하고 indegree 값도 조정함.
+- 그 후, topology sort를 하는데 1.Cycle이 발생할 경우 불가능하다는 뜻으로 IMPOSSIBLE을, 2.TOPOLOGY SORT 결과가 여러개인 경우 ?를 출력해야하며 그 외의 경우는 result를 출력한다.
+- Cycle을 알 수 있는 방법은 노드가 N번 나오기전에 q가 비어버린다면 이것은 Cycle이다.
+- 여러개인 것을 알 수 있는 방법은 특정 시점에서 2개 이상의 노드가 큐에 한꺼번에 들어갈 때는, 가능한 결과가 여러개라는 의미이다.
+
+</details>
