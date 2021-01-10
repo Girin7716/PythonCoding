@@ -16,17 +16,13 @@ for i in range(N):
     else:
         heapq.heappush(min_h,data)
 
-    left = heapq.heappop(max_h)
-    mid = -left
-    if i != 0:
-        print(mid)
-        continue
-    right = heapq.heappop(min_h)
-    mid = min(-left, right)
-    heapq.heappush(max_h, right)
-    heapq.heappush(min_h, left)
+    if min_h and (-max_h[0])>min_h[0]:
+        left = heapq.heappop(max_h)
+        right = heapq.heappop(min_h)
+        heapq.heappush(max_h,-right)
+        heapq.heappush(min_h,-left)
 
-    print(mid)
+    print(-max_h[0])
 
 # 6
 # 5

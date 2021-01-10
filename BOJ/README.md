@@ -34,3 +34,40 @@
   - 출처: https://suri78.tistory.com/49 [공부노트]
 
 </details>
+
+---
+
+## Q1655
+
+<details>
+<summary>가운데를 말해요</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1655
+- 풀이 방법
+  - 우선순위 큐를 사용하여 중간 값을 기준으로 낮은 값은 max_heap으로 저장하고, 큰 값은 min_heap으로 저장한다. 이때, max_heap의 root가 중간 값으로 생각한다.
+  - 새로운 데이터를 push할때 max_heap과 min_heap의 원소 개수가 다르면 max_heap에 넣고, 그 외에는 min_heap에 넣어준다.
+  - 그 후, 각각의 heap에의 root를 비교해서 이때 max_heap(즉 left)가 min_heap(즉 right)보다 클 경우 서로의 원소를 바꿔서 저장한 뒤, max_heap의 root를 출력하면 된다.
+  <br/>
+  ![Q1655](./readme_img/Q1655.JPG)
+
+</details>
+
+---
+
+## Q1300
+
+<details>
+<summary>K번째 수</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1300
+- 풀이 방법
+  - K번째의 숫자를 알아야한다.
+  - 이분탐색으로 mid보다 낮은 숫자의 개수를 알아낼 수 있다.
+    - 각 row에서 mid보다 낮은 숫자의 개수는 mid//i(이때 i는 1~N)이다.
+    - 이 모든 개수를 더하면 mid라는 숫자는 몇번째 위치한지 알 수 있다.
+  - 이때, 개수가 같은 숫자가 있을 수 있는데 이때는 최솟값을 찾아야 하므로 result에 mid를 저장한 다음 end = mid - 1 해서 계속 진행한다.
+- Binary Search가 끝나면 result를 출력한다.
+
+</details>
+
+---
