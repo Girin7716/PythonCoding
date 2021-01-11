@@ -1027,12 +1027,14 @@ for i in range(e):
 
 <details>
 <summary>신장 트리(spanning tree)</summary>
-</details>
+
 
 - 신장 트리
   - 하나의 그래프가 있을 때 모든 노드를 포함하는 부분 그래프를 의미.
   - '모든 섬을 도로를 이용해 연결하는 문제' 등에서 사용될 수 있다.
 - ![spanning_tree](./readme_img/spanning_tree.JPG)
+
+</details>
 
 <details>
 <summary>크루스칼 알고리즘</summary>
@@ -1151,9 +1153,142 @@ for i in range(e):
 
 
 </details>
+
 ---
 
 <br/>
+
+## LIS 알고리즘(Longest Increasing Subsequence)
+
+- https://shoark7.github.io/programming/algorithm/3-LIS-algorithms
+
+<details>
+<summary>개념 설명</summary>
+
+- '최장 증가수열' 또는 '최대 증가 부분수열'로 불린다.
+- LIS는 어떤 수열에서 특정 부분을 지워서 만들어낼 수 있는 증가 부분수열(increasing sequence) 중 가장 긴 수열을 말하는데 이때 부분수열의 숫자들은 원 배열에서 위치가 이어져 있지 않아도 된다는 주요한 특징이 있다.
+- 순증가(strictly increasing)와 단조증가(monotonically increasing)로 나눌 수 있다.
+  - 순증가는 [1,2,3] 처럼 뒤의 숫자가 앞의 숫자보다 무조건 큰 경우를 말한다.
+    - LIS는 보통 순증가하는 부분수열을 대상으로 함.
+  - 단조증가는 [1,2,2,3] 처럼 뒤의 원소가 앞의 원소 이상인 증가를 말한다.
+    - ex> 피보나치 수열
+
+- 예시>[1,4,6,8,3,5,6,7]일 때 [1,6,8],[4,6,8],[1,7]등은 증가 부분수열인데, 이 중 가장 긴 부분열은 [1,3,5,6,7]이 된다. 이때 중간의 4,6,8은 생략한 것을 알 수 있다.
+
+</details>
+
+<details>
+<summary>완전탐색(추천X)</summary>
+
+- 명제
+  1. 정수 i, j에 대해 i < j이면, S[i] < S[j]다.(0 <= i, j <= |S|)
+  2. 정수 i, j에 대해 S[i] < S[j]이면, 원 배열 arr에서의 S[i], S[j] 두 수의 위치 전후관계는 같다.(0 <= i, j <= |S|) 
+- 모든 증가 부분수열을 고려한다.
+- 원 배열에서 증가 부분수열의 첫 수를 선택하고, 그 다음 수가 될 수 있는, 위의 두 명제처럼 첫 수보다 원 배열에서 뒤에 있고 큰 후보값들의 배열을 추려 재귀해나가면 될 것 같다. 
+- 재귀함수가 진행되면서 내 앞의 숫자가 어떤 숫자였는지는 중요하지 않다. 이미 내가 선택되었다는 것은 그 이전의 숫자가 나보다는 작은 숫자라는 것을 말해주고, 또 여기서는 길이만 구하기 때문에 앞선 콜에서 이전값의 길이 1만을 계속 더해나가면 되기 때문이다.
+
+    ```python
+    def lis(arr):
+        if not arr:
+            return 0
+        
+        ret = 1
+        for i in range(len(arr)):
+            nxt = []
+            for j in range(i+1, len(arr)):
+                if arr[i] < arr[j]:
+                    nxt.append(arr[j])
+            ret = max(ret, 1 + lis(nxt))
+        return ret	
+    ```
+- *O(N<sup>3</sup>)*
+- 수형도
+  - ![lis_tree_graph](./readme_img/lis-tree-graph.JPG)
+  -  lis(i) 는 i 번째 인덱스의 수부터 원 수열의 끝까지의 lis의 길이를 반환하는데 여기에는 수많은 인덱스의 lis 호출이 쓰였다.
+     -  전부 중복 계산 -> 캐싱을 통해 재계산을 없애자(DP)
+
+</details>
+
+<details>
+<summary>DP(동적 계획법)</summary>
+
+- 위에서 수형도를 그린 이유는 이 수형도를 통해 동적 계획법의 가능성을 확실히 발견할 수 있기 때문이다.
+- ![lis_math](./readme_img/lis_math.JPG)
+  - 왼편은 두 조건을 모두 만족하는 next 에 대해서,오른편은 lis(next) + 1 를 실행하고, 그 값들의 최대값이 정답이 된다는 뜻이 된다.
+    ```python
+    import math
+
+
+    def lis(arr):
+        arr = [-math.inf] + arr
+        N = len(arr)
+        cache = [-1] * N
+
+        def find(start):
+            if cache[start] != -1:
+                return cache[start]
+
+            ret = 0
+            for nxt in range(start+1, N):
+                if arr[start] < arr[nxt]:
+                    ret = max(ret, find(nxt) + 1)
+
+            cache[start] = ret
+            return ret
+
+        return find(0)
+
+    ``` 
+
+</details>
+
+<details>
+<summary>Binary Search(이진 탐색)을 통한 최적화</summary>
+
+- 나중에 다시 공부하기
+
+    ```python
+    def lis(arr):
+        if not arr:
+            return 0
+
+        # C[i] means smallest last number of lis subsequences whose length are i
+        INF = float('inf')
+        C = [INF] * (len(arr)+1)
+        C[0] = -INF
+        C[1] = arr[0]
+        tmp_longest = 1
+
+        # Find i that matches C[i-1] < n <= C[i]
+        def search(lo, hi, n):
+            if lo == hi:
+                return lo
+            elif lo + 1 == hi:
+                return lo if C[lo] >= n else hi
+
+            mid = (lo + hi) // 2
+            if C[mid] == n:
+                return mid
+            elif C[mid] < n:
+                return search(mid+1, hi, n)
+            else:
+                return search(lo, mid, n)
+
+
+        for n in arr:
+            if C[tmp_longest] < n:
+                tmp_longest += 1
+                C[tmp_longest] = n
+            else:
+                next_loc = search(0, tmp_longest, n)
+                C[next_loc] = n
+
+        return tmp_longest
+    ``` 
+
+</details>
+
+---
 
 <!--
 코드 - 출력  markdown 형식
