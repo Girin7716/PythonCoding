@@ -118,3 +118,45 @@
     - 나같은 경우 옮기기 위해 rem이라는 큐를 선언 후 0(기계에서 나온 공기)를 넣은 후, 옮겨갈 다음 좌표를 큐에 넣고 해당 좌표에다가 큐를 pop()한 값을 넣음으로써 회전시켰다.
 
 </details>
+
+---
+
+## Q1967
+
+<details>
+<summary>트리의 지름</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1967
+- 풀이 방법
+  - 주어진 트리의 root에서 bfs()를 시도하여 가장 최장 거리에 있는 노드 번호를 찾는다.
+  - 그 후, 최장 거리에 있는 노드로 부터 다시 bfs()를 시도하여 가장 거리가 먼 값을 출력하면 트리의 지름이 가장 길다고 할 수 있다.
+  - bfs를 할때 자기자신->노드->자기자신의 길이가 가장 큰 값을 가질 경우 잘못된 값이 나오므로 visited을 따로 두어 이러한 경우를 방지한다.
+
+</details>
+
+---
+
+## Q1916
+
+<details>
+<summary>최소비용 구하기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1916
+- 풀이 방법
+  - 하나의 노드에서 다른 노드까지의 최소 비용을 구하는 문제이므로 다익스트라 알고리즘을 이용하여 해결하였다.
+  - 주어진 start 노드로 다익스트라 알고리즘을 돌린 후, start 노드에서 다른 모든 노드들까지의 최소 비용이 구해진 distance 리스트에서 distance[end]를 출력해주면 start->end의 최소 비용을 구할 수 있다.
+
+</details>
+
+---
+
+## Q1043
+
+<details>
+<summary>거짓말</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1043
+- 풀이 방법
+  - 집에가서 쓰기
+
+</details>
