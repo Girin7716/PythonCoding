@@ -204,3 +204,55 @@
   - 1~N까지의 리스트를 만든 후 combinations(리스트,M)을 한 뒤 해당 내용을 출력하면 된다.
 
 </details>
+
+---
+
+## Q1504
+
+<details>
+<summary>특정한 최단 경로</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1504
+- 풀이 방법
+  - 1번 노드에서 시작하여 주어진 두 정점을 거치면서 N번 노드로 가는 최단 경로를 가야하므로 다익스트라를 떠올렸다.
+  - 1번노드 에서 두 정점 v1,v2를 거쳐 N번 노드로 가는 최단 경로는 두가지 경우가 나온다.
+    - 1 → v1 → v2 → n
+    - 1 → v2 → v1 → n
+  - 다익스트라 알고리즘은 start node에서 다른 모드 노드까지의 최단 경로를 구하므로 이에 대한 최소 비용을 저장한 distance 리스트를 가지고 구할 수있다.
+  
+    ```python
+    one = dijkstra(1)
+    ```
+    ```python
+    rem_v1 = dijkstra(v1)
+    ```
+    ```python
+    rem_v2 = dijkstra(v2)
+    ```
+    - one 은 '1에서 다른 모든 노드로 가는 최소 비용'이 저장된 리스트이다.
+    - rem_v1 은 'v1에서 다른 모든 노드로 가는 최소 비용'이 저장된 리스트이다.
+    - rem_v2 는 'v2에서 다른 모드 노드로 가는 최소 비용'이 저장된 리스트이다.
+  - 위에서 구한 리스들로 1에서 출발하여 v1,v2를 거쳐 n으로 가는 최소비용을 구할 수 있다.
+    ```python
+    result = min(one[v1]+rem_v1[v2]+rem_v2[N],one[v2]+rem_v2[v1]+rem_v1[N])
+    print(result if result < INF else -1)
+    ``` 
+
+</details>
+
+---
+
+## Q2263
+
+<details>
+<summary>트리의 순회</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2263
+- 참고 : https://whereisend.tistory.com/112
+- 풀이 방법
+  - 문제에서 주어진 inorder와 postorder를 바탕으로 preorder를 구해야한다.
+  - preorder는 VLR(value-left-right)형식으로 순회하며 즉 해당 트리의 root를 먼저 도착한다.
+  - 그러므로, print(root) → left_tree → right_tree로 진행해야하며, 각각의 트리(부분 트리)들을 순회할때 그에 맞는 inorder의 부분트리와 postorder의 부분트리도 알기위해 변수로 해당 트리의 inorder start, end 와 postorder start, end를 주었다.
+  - ![Q2263](./readme_img/Q2263.JPG)
+
+</details>
