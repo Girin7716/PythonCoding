@@ -138,6 +138,52 @@
 ___
 <br />
 
+## 딕셔너리(dictionary)
+
+<details>
+<summary>정의</summary>
+
+-  딕셔너리 자로형은 해시(Hash) 자료형이라고도 한다.
+-  딕셔너리는 리스트나 튜플처럼 순차적으로(sequential) 해당 요솟값을 구하지 않고 <strong>Key</strong>를 통해 <strong>Value</strong>를 얻는다. 이것이 바로 딕셔너리의 가장 큰 특징이다. (key-value)
+-  기본 모습
+   -  {Key1:Value1, Key2:Value2, Key3:Value3, ...}
+
+</details>
+
+<details>
+<summary>딕셔너리로 그래프 만들기</summary>
+
+- 그래프를 만들기 위해서는 dictionary.get() 함수를 알아야한다.
+  - 딕셔너리의 get(x) 함수는 <strong>x라는 key</strong>에 대응되는 <strong>value값을 돌려준다</strong>.
+  - 만약 get(x, 'hi') 함수에 두번째 인자를 넣어주면 x라는 key가 딕셔너리에 없는 경우, 'hi'를 디폴트 값을 돌려준다.
+  - 즉, 딕셔너리 안에 찾으려는 Key 값이 없을 경우 미리 정해 둔 디폴트 값을 대신 가져오게 하고 싶을 때에는 get(x, '디폴트 값')을 사용하면 된다.
+- ex>
+  ```python
+    n = int(input())
+    dic = {}
+
+    for i in range(n):
+        a, b = map(int, input().split())
+        dic[a] = dic.get(a, []) + [b]
+        dic[b] = dic.get(b, []) + [a]
+        
+    print(dic)
+  ```
+  - input<br/>
+    5<br/>
+    1 2<br/>
+    2 5<br/>
+    5 1<br/>
+    3 4<br/>
+    4 6<br/>
+  - 결과
+    - {1: [2, 5], 2: [1, 5], 5: [2, 1], 3: [4], 4: [3, 6], 6: [4]}
+
+</details>
+
+---
+<br/>
+
 ## 우선순위 큐(Priority Queue)
 
 <details>

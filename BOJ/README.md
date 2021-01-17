@@ -256,3 +256,180 @@
   - ![Q2263](./readme_img/Q2263.JPG)
 
 </details>
+
+---
+
+## Q17070
+
+<details>
+<summary>파이프 옮기기1</summary>
+
+- 링크 : https://www.acmicpc.net/problem/17070
+- 풀이 방법
+  - 주어진 조건에 맞춰 bfs를 수행하며 큐를 pop했을때 x2,y2 좌표가 N-1,N-1일때 result를 올려 bfs가 끝나면 result를 출력한다.
+  - 하지만, 이러한 방식으로 완전탐색으로 할 경우 파이썬의 경우 시간초과가 발생하며, c++ 경우 통과가 된다.
+  - 찾아보니 파이썬에서 문제를 통과하기위해서는 dp로 풀어야한다.
+  - dp는 나중에 풀어보겠음.
+  - python 코드를 c++로 변경하는 방법도 알 필요가 있다는 것을 깨닫는 문제였다.
+  - ![Q17070](./readme_img/Q17070.JPG)
+
+</details>
+
+---
+
+## Q11725
+
+<details>
+<summary>트리의 부모 찾기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/11725
+- 풀이 방법
+  - 트리의 root가 1이므로 1번 노드부터 bfs로 탐색하면서 연결된 노드들의 parent를 visited 리스트에 저장한 뒤 출력하면 된다.
+
+</details>
+
+---
+
+## Q1991
+
+<details>
+<summary>트리 순회</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1991
+- 풀이 방법
+  - 그래프를 dictionary 자료형을 이용하여 만들었다.
+    ```python
+    N = int(input())
+    graph = {}
+    for i in range(N):
+        a,b,c = input().split()
+        graph[a] = graph.get(a,[]) + [b]
+        graph[a] = graph.get(a, []) + [c]
+    ```
+    ![1991](./readme_img/1991.JPG)
+  - preorder, inorder, postorder는 재귀적으로 함수를 구성했으며 종료조건으로는 node가 '.'일 경우 종료하도록 했다.
+  - preorder → VLR(value-left-right)
+  - inorder → LVR(left-value-right)
+  - postorder → LRV(left-right-value)
+
+</details>
+
+---
+
+## 18119
+
+<details>
+<summary>단어 암기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/18119
+- 풀이 방법
+  1. 처음에는 생각나는대로 주어진 단어에 잊어버린 단어가 있는지 확인하는 형태의 naive한 코드를 짠 후 시도했으나 TLE
+  ```python
+  import sys
+  input = sys.stdin.readline
+
+  N, M = map(int,input().split())
+  words = [input() for _ in range(N)]
+
+  forget = []
+
+  for i in range(M):
+      num, word = input().split()
+      answer = 0
+      if num == '1':  # 잊어버리기
+          forget.append(word)
+          for j in words:
+              check = False
+              for k in forget:
+                  if k in j:
+                      check = True
+                      break
+              if check == False:
+                  answer += 1
+          print(answer)
+      else:   # 기억해내기
+          forget.remove(word)
+          for j in words:
+              check = False
+              for k in forget:
+                  if k in j:
+                      check = True
+                      break
+              if check == False:
+                  answer += 1
+          print(answer)
+  ``` 
+  2. 주어진 문자열에 잊어버린 문자가 있는지 확인하는데 시간이 오래 걸렸나 싶어 이분탐색으로 이를 탐색하여 확인해봄 -> TLE
+  ```python
+  from bisect import bisect_left, bisect_right
+
+  # 값이 [left_value,right_value]인 데이터의 개수를 반환하는 함수
+  def count_by_range(a, left_value, right_value):
+      right_index = bisect_right(a,right_value)
+      left_index = bisect_left(a,left_value)
+      return right_index - left_index
+
+  N,M=map(int,input().split())
+  words = [list(input()) for _ in range(N)]
+  for word in words:
+      word.sort()
+  forget = []
+  #print(count_by_range(a,5,5))
+  for i in range(M):
+      num, fg = input().split()
+      answer = 0
+      if num == '1':  # 까먹기
+          forget.append(fg)
+          for word in words:
+              check = False
+              for f in forget:
+                  if count_by_range(word,f,f) !=0:
+                      check = True
+              if check == False:
+                  answer+=1
+          print(answer)
+      else:   # 기억
+          forget.remove(fg)
+          for word in words:
+              check = False
+              for f in forget:
+                  if count_by_range(word,f,f) !=0:
+                      check = True
+              if check == False:
+                  answer+=1
+          print(answer)
+  ```
+  3. 비트마스킹으로 해결
+    - alpha 리스트는 'a'가 0번째, 'z'가 25번째 인덱스이며 주어진 문자열에서 각각의 문자열에서 해당 문자를 가질 경우 주어진 문자열이 나온 순서 index를 alpha[해당 문자 순서]에 추가해준다.
+      ```python
+      alpha = [[] for _ in  range(26)]
+      for i in range(N):
+          words = set(input())
+          for word in words:
+              alpha[ord(word)-ord('a')].append(i)
+              print(word,ord(word)-ord('a'))
+      ``` 
+      - ex>문제 예제에서 처음 주어진 'apple'의 경우, 'a'==0, 'p'==15, 'l'==11,'e'==4이다. 그러므로 alpha[0]=[0], alpha[15]=[0],alpha[11]=[0],alpha[4]=[0]이 된다.<br/> 두번째로 주어진 actual의 경우 'a'==0,c=='2',t=='19','u'==20,'l'==11이다. 그러므로 첫번째 문자열의 결과를 포함해서 alpha리스트를 나타내면 alpha[0]=[0,1],alpha[2]=[1],alpha[4]=[0],alpha[11]=[0,1],alpha[15]=[0],alpha[19]=[1],alpha[20]=[1]가 된다.
+    - check 리스트는 주어진 문자열에서 까먹은 자음의 개수가 몇개인지를 나타내는 리스트이다.
+    - answer의 경우 처음에는 문자를 전부 알고 있으므로 주어지는 문자열의 개수인 N개만큼 문자열을 알고있다.
+      - 그러나, 문자열을 까먹거나 기억해내는 행동을 할 때마다 이러한 answer에서 + 혹은 -가 된다. 즉, 행동 하나할때마다 answer 값의 변화가 일어나고 그 값을 출력해주면 된다.
+    - 까먹을경우 해당 알파벳을 가지고 있는 문자열을 알기 위해서 alpha 리스트를 이용한다. 이때, 해당 문자열이 만약 잊어버린 문자가 없는 상태(check[i]==0)일 경우, 문자를 까먹어버렸으니 answer-=1하여 알고 있는 문자 개수를 줄여준 뒤 check[i]+=1을 하여 해당 문자열에서 모르는 문자 개수를 추가해준다.
+      ```python
+      if o == '1':    # 까먹음
+      for i in alpha[ord(x)-ord('a')]:
+          if check[i] == 0:
+              answer-=1
+          check[i]+=1
+      ```
+     - 기억해낸 경우도 까먹은 경우와 마찬가지이다. 그러나 기억을 해냈으므로 까먹은 경우와 다르게 먼저 check[i]-=1을 해준 뒤 check[i]==0일 경우 answer+=1일 해주면 된다.
+     ```python
+    else:   #기억해냄
+      for i in alpha[ord(x)-ord('a')]:
+          check[i] -= 1
+          if check[i] == 0:
+              answer +=1
+     ```
+
+
+</details>
+
