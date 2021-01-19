@@ -485,3 +485,74 @@
     - 점화식에서 N-5가 있으므로 f(5)까지는 미리 값을 넣어주어야한다.
 
 </details>
+
+---
+
+## Q2579
+
+<details>
+<summary>계단 오르기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2579
+- 풀이 방법
+  - 마지막에는 무조건 마지막 계단을 밟아야한다. 그래서 먼저 마지막 계단을 밟았다고 생각하고 점화식을 세워보았다.
+  - 그럴경우, 경우는 2가지 경우가 나온다.
+    1. N-1번 계단을 밟고 온 경우(이러한 경우, N-2번 계단은 밟으면 안된다.)
+    2. N-2번 계단을 밟고 온 경우
+  - 점화식
+    - dp[i] = max(dp[i-2]+data[i],dp[i-3]+data[i]+data[i-1])
+  - 점화식이 이러하므로 dp에는 dp[0],dp[1],dp[2]의 값이 미리 들어가 있어야 하며, N==1일때와 N==2일때의 case는 따로 처리해줘야한다.
+
+</details>
+
+---
+
+## Q2156
+
+<details>
+<summary>포도주 시식</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2156
+- 풀이 방법
+  - ![2156](./readme_img/2156.JPG)
+
+</details>
+
+---
+
+## Q11053
+
+<details>
+<summary>가장 긴 증가하는 부분 수열</summary>
+
+- 링크 : https://www.acmicpc.net/problem/11053
+- 풀이 방법
+  - LIS(Longest Increasing Subsequence)를 구하는 문제이다.
+    - LIS를 구하는 법에는 크게 2가지가 종류가 있다.
+      1. DP로 해결(이번 문제에서는 DP로 해결)
+      2. 이분탐색으로 해결(차차 공부해야함)
+  - DP 리스트를 해당 숫자까지의 최대 길이라고 정의한다.
+  - 그 후, 주어진 입력을 차례대로 앞에서부터 검사하면서 최대의 숫자를 DP에 저장한다. 그러기 위해서는 2중 for문을 사용해서 1)이전의 숫자들의 dp값을 봐야하며, 2)이전의 숫자보다는 커야한다.
+    ```python
+    for i in range(N):
+      for j in range(i):
+          if arr[i] > arr[j]:
+              result[i] = max(result[i],result[j]+1)
+    ```
+
+</details>
+
+---
+
+## Q11054
+
+<details>
+<summary>가장 긴 바이토닉 부분 수열</summary>
+
+- 링크 : https://www.acmicpc.net/problem/11054
+- 풀이 방법
+  - Q11053 문제와 유사하다.
+  - 주어진 입력에서 LIS의 길이를 구하고, 이를 거꾸로 돌려 다시 LIS를 구한 뒤 두 리스트를 합친다. 그 후, 가장 큰 값을 가지는 값에서 -1을 해준다.(-1는 중복이 있으므로 해주는 거임).
+  - ![11054](./readme_img/11054.JPG)
+
+</details>
