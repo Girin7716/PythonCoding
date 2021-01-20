@@ -556,3 +556,48 @@
   - ![11054](./readme_img/11054.JPG)
 
 </details>
+
+---
+
+## Q2565
+
+<details>
+<summary>전깃줄</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2565
+- 풀이 방법
+  - A 전봇대에 대해서 정렬을 한 후, B 전봇대에 대해서 LIS를 최대 길이를 구하여 N - (LIS 최대 값)을 하면 제거해야할 전깃줄의 개수가 나온다.
+  - ![2565](./readme_img/2565.JPG)
+    - 노란색 부분이 남겨야할 전깃줄임.
+
+</details>
+
+---
+
+## Q9251
+
+<details>
+<summary>LCS</summary>
+
+- 링크 : https://www.acmicpc.net/problem/9251
+- 풀이 방법
+  - 알파벳이 같으면 (왼쪽 대각선+1)
+  - 알파벳이 다르면 위나 왼쪽중 가장 큰 값을 가져온다.
+  - ![9251](./readme_img/9251.JPG)
+
+</details>
+
+---
+
+## Q1912
+
+<details>
+<summray>연속합</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1912
+- 풀이 방법
+  - dp[i] : i번째까지 구할 수 있는 합 중 가장 큰 값 저장.
+  - dp[i]는 그러므로 data[i]를 포함해서 그 전까지의 최대합 이거나 data[i]이거나 둘 중 더 큰 값이다.
+  - dp[i] = max(dp[i-1]+data[i],data[i])
+
+</details>
