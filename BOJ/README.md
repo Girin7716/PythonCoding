@@ -460,7 +460,7 @@
 ## Q1904
 
 <details>
-<summray>01타일</summary>
+<summary>01타일</summary>
 
 - 링크 : https://www.acmicpc.net/problem/1904
 - 풀이 방법
@@ -592,7 +592,7 @@
 ## Q1912
 
 <details>
-<summray>연속합</summary>
+<summary>연속합</summary>
 
 - 링크 : https://www.acmicpc.net/problem/1912
 - 풀이 방법
