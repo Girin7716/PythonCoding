@@ -181,6 +181,27 @@ ___
 
 </details>
 
+<details>
+<summary>value·Î key°ª Ã£±â</summary>
+
+- dic.items()
+  - DictionaryÀÇ key-value ½Ö Tuple µé·Î ±¸¼ºµÈ dict_items °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù.
+```python
+    scores = {"Ã¶¼ö": 90, "¹Î¼ö": 85, "¿µÈñ": 80}
+    
+    items = scores.items()
+    print(items)
+    # Ãâ·Â: dict_items([('¹Î¼ö', 85), ('¿µÈñ', 80), ('Ã¶¼ö', 90)])
+```
+
+```python
+    for key, value in dic.items():
+        if value == 1:
+            answer = key
+```
+
+</details>
+
 ---
 <br/>
 
@@ -1342,6 +1363,17 @@ for i in range(e):
     ``` 
 
 </details>
+
+---
+
+<br />
+
+## ºñÆ® ¸¶½ºÅ·(bit masking)
+
+<details>
+<summary></summary>
+</details>
+
 
 ---
 
