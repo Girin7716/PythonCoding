@@ -601,3 +601,31 @@
   - dp[i] = max(dp[i-1]+data[i],data[i])
 
 </details>
+
+---
+
+## Q9935
+
+<details>
+<summary>문자열 폭발</summary>
+
+- 링크 : https://www.acmicpc.net/problem/9935
+- 풀이 방법
+  - 처음에 result 리스트(stack으로 사용할거임)에 bomb(문자열 폭탄)의 길이만큼 주어진 문자열을 앞에서부터 담는다.
+  - 그 후, result 스택에서 제일 뒤쪽에서부터 bomb길이만큼 확인해서 해당 문자열이 bomb랑 똑같으면 bomb의 길이만큼 pop 해준다.
+  - 그 다음, result에는 다음 문자를 담는데 에러가 없이 담아진다면 위 과정을 반복하면, 에러가 생기면(index초과) break하여 result를 출력한다.
+
+</details>
+
+---
+
+## Q14938
+
+- 링크 : https://www.acmicpc.net/problem/14938
+- 풀이 방법
+  - 플로이드 워셜 알고리즘을 이용하여 풀었다.
+  - 각 노드에서 다른 노드로 갈 수 있는 최단 거리에 대한 리스트 D를 구한 후, 하나의 row씩 검사를 하면서 이동거리 m 이하인 지역의 items을 result에 더하여 각각의 row에 대한 result를 구할 수 있으며 이 중 가장 큰 값을 출력해준다.<br/><br/><br/>
+  
+  - 다익스트라는 내일 풀어보자!
+
+---
