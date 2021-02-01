@@ -698,3 +698,121 @@
   - dp란 i번 작업을 수행할 때 걸리는 최대 시간이다.(그러므로, 기존의 최대 시간과 (선행 작업이 끝난 작업+i가 걸리는 시간) 중 큰 값이 저장됨.)
 
 </details>
+
+---
+
+## Q2252
+
+<details>
+<summary>줄 세우기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2252
+- 풀이 방법
+    - 두 학생간의 누가 큰지만을 알려 주었으며 이를 보고 위상정렬을 떠올렸다.
+    - 키가 작은 학생이 키가 큰 학생을 가리키는 형식으로 그래프를 형성하고, 각 노드의 indegree를 만들어준 뒤, 위상 정렬을 하면 된다. 이때, 출력 값은 답이 여러가지인 경우 아무거나 출력해도 되므로, 예제2와 같은 경우 4 2 3 1 이나 3 4 1 2 이나 같은 정답이다.(왜냐하면 4 2의 순서와 3 1만 지키면 되고 그 외에는 상관이 없기 때문이다.)
+
+</details>
+
+
+---
+
+## Q2467
+
+<details>
+<summary>용액</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2467
+- 풀이 방법(내가 푼 방법)
+  <details>
+  <summary>코드</summary>
+
+  ```python
+  import sys
+  input = sys.stdin.readline
+
+  N = int(input())
+  data = list(map(int,input().split()))
+
+  start = 1
+  end = N-1
+  result = [data[0],data[1]]
+
+  near_zero = int(1e9)
+  for i in range(N):
+    start = i
+    end = N-1
+
+    while start <= end:
+        mid = (start + end) // 2
+
+        if data[i] + data[mid] == 0:
+            result[0] = data[i]
+            result[1] = data[mid]
+            near_zero = data[i] + data[mid]
+            break
+        elif data[i] + data[mid] < 0:
+            start = mid + 1
+        else:  # data[i]+data[mid] > 0
+            end = mid - 1
+        if i == mid:
+            continue
+        if abs(near_zero) > abs(data    [i] + data[mid]):
+            near_zero = data[i] + data[mid]
+            result[0] = data[i]
+            result[1] = data[mid]
+
+
+  print(result[0],result[1])
+  ```
+
+  </details>
+
+
+  - 시간 제한이 1초이고, N = 10,000이므로 이 문제는 적어도 O(NlogN)에 풀어야한다. 그래서 떠오른 생각이 이분 탐색이었다.
+  - 주어진 리스트를 처음부터 검사하면서 다른 용액을 찾을때는 이분탐색을 이용하여 탐색하게하였다. 
+  - 그래서 두 합이 0일 경우는 그대로 출력하고,
+  - 0보다 작을 경우 start = mid + 1 해주고
+  - 0보다 클 경우 end = mid - 1 해주면서,
+  - near_zero보다 0에 가까우면 해당 합을 저장해준다.
+  - 그러나, 이런식으로 풀이하여 제출했을때 정답처리는 되었으나 다른 사람들과 비교하여 엄청 오랜 시간이 걸린다는 점을 확인하였고, 다른 사람들의 풀이를 보니 투포인터로 해결하였다는 것을 알고 투포인터로 다시 풀어 보았다.
+
+- 풀이 방법(투포인터)
+  <details>
+  <summary>코드</summary> 
+
+  ```python
+  import sys
+  input = sys.stdin.readline
+
+  N = int(input())
+  data = list(map(int,input().split()))
+
+  left = 0
+  right = N-1
+
+  near_zero = int(1e9)
+  result = [data[0],data[1]]
+  while left < right:
+    sum_value = data[left] + data[right]
+    if abs(near_zero) > abs(sum_value):
+        near_zero = sum_value
+        result[0] = data[left]
+        result[1] = data[right]
+    if sum_value > 0:
+        right -= 1
+    elif sum_value < 0:
+        left += 1
+    else:   # sum_value == 0
+        break
+  print(result[0],result[1])
+  ```
+
+  - 오름차순되어있는 리스트가 입력으로 주어지므로, left = 0, right = N-1로 하여 해당 인덱스의 data 값을 합한 값이 0에 가까운 것을 저장한다.
+  - 합한 값이 0보다 크면, 양수쪽 숫자를 줄여야하므로 right -=1
+  - 합한 값이 0보다 작으면, 음수쪽 숫자를 줄여야하므로 left -=1
+  - 합한 값이 0이면, 해당 data들 출력
+
+
+  </details>
+
+</details>
