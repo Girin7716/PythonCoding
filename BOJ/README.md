@@ -816,3 +816,81 @@
   </details>
 
 </details>
+
+---
+
+## Q2567
+
+<details>
+<summary>전깃줄 - 2</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2568
+- 풀이 방법
+  - https://www.acmicpc.net/problem/2467 이 사이트 방식을 참고함.
+  - 근데 효율적인 방법은 아닌듯
+  - 320ms 걸리는 사람들거 보고 탐구해보기.
+
+</details>
+
+---
+
+## Q2623
+
+<details>
+<summary>음악프로그램</summary>
+
+- 링크 : https://www.acmicpc.net/problem/2623
+- 풀이 방법
+  - >순서를 정하기 위해서는 많은 조건을 따져야 한다.
+  - 위 문구에서 위상 정렬을 이용하여 풀어야겠다고 생각했다.
+  - 예제의 입력을 예시로 들면 그래프는 아래와 같이 구성한다.
+    ![2623](./readme_img/2623.JPG)
+  - 이후 위상 정렬을 수행하며, queue에서 pop될때마다 해당 값을 result에 저장한다.
+  - 위상정렬이 끝나면 result에 원소의 개수를 파악하고 개수가 N이랑 다르다면(즉, 실패) 0, 그 외에는 result를 출력하면 된다.
+
+</details>
+
+---
+
+## Q1717
+
+<details>
+<summary>집합의 표현</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1717
+- 풀이 방법
+  - 단순히 union-find 문제이다
+  - 다만 재귀를 사용할 경우 재귀호출한계를 풀어주어야한다.
+    ```python
+    import sys
+    sys.setrecursionlimit(10**5)
+    ```
+  - 또한, parent의 경로 압축을 해주어야지만 통과할 수 있었다.(이전까지 알고 있었던 코드는 경로압축을 안해줌)
+    - ex1> 경로 압축 X(parent에 경로 update 안함)
+      ```python
+      def find_parent(parent,x):
+        if parent[x] != x:
+          return find_parent(parent,parent[x])
+        return parent[x]
+      ``` 
+    - ex2> 경로 압축 o(parent에 경로 update 함)
+      ```python
+      def find_parent(parent,x):
+        if parent[x] != x:
+            parent[x] = find_parent(parent,parent[x])
+        return parent[x]
+      ```
+      - 만약
+      > 100000 100000<br>
+      > 0 0 1<br>
+      > 0 0 2<br>
+      > 0 0 3<br>
+      > 0 0 4<br>
+      > …<br>
+      > 0 0 99999<br>
+      > 0 0 100000<br>
+      이런식으로 입력이 들어오면 ex1>의 경우 최악에는 O(N^2)이 걸리지만, ex2>의 경우는 대략 O(NlogN)이다.
+</details>
+
+
+---
