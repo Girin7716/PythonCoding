@@ -1482,6 +1482,49 @@ for i in result:
 
 ---
 
+<br />
+
+## BFS(큐를 집합으로 만들어서 진행)
+
+<details>
+<summary>코드 예시</summary>
+
+```python
+def bfs():
+    mx = 0
+    q = set()
+    q.add((0,0,board[0][0]))
+    while q:
+        x,y,sentence = q.pop()
+        mx = max(mx,len(sentence))
+        if mx == 26:
+            return 26
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx >= R or ny < 0 or ny >= C:
+                continue
+            if board[nx][ny] in sentence:
+                continue
+            q.add((nx,ny,sentence+board[nx][ny]))
+    return mx
+
+R,C = map(int,input().split())
+board = []
+for i in range(R):
+    board.append(list(input()))
+
+dx = [1,0,-1,0]
+dy = [0,1,0,-1]
+
+print(bfs())
+```
+
+
+</details>
+
+---
+
 <!--
 코드 - 출력  markdown 형식
 
