@@ -892,5 +892,127 @@
       이런식으로 입력이 들어오면 ex1>의 경우 최악에는 O(N^2)이 걸리지만, ex2>의 경우는 대략 O(NlogN)이다.
 </details>
 
+---
+
+## Q1759
+
+<details>
+<summary>암호 만들기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1759
+- 풀이 방법(내가 푼 방법)
+  - combinations를 이용하여 풀었다.
+  - 주어진 문자열을 오름차순으로 정렬 한 뒤 combinations(data,L)을 하면 L만큼의 모든 경우의 수가 나온다.
+  - 해당 경우의 수를 하나씩 검사하면서 모음이 하나 이상이면서 자음이 2개이상인 경우 출력해주면 된다. 이때 주어진 문자열을 오름차순으로 정렬 한 뒤 combinations 했으니까 검사하는 것도 오름차순 순서대로 검사해서 출력해준다.
+
+  <details>
+  <summary>코드</summary>
+
+  ```python
+  # 암호 만들기
+  from itertools import combinations
+  import sys
+  input = sys.stdin.readline
+
+  L, C = map(int,input().split())
+  data = sorted(list(input().split()))
+  comb = list(combinations(data,L))
+
+  for c in comb:
+    cnt = 0
+    for i in range(L):
+        if c[i] in 'aeiou':
+            cnt +=1
+    if cnt >=1 and L-cnt >=2:
+        print(''.join(list(c)))
+
+  ```
+
+  </details> 
+
+</details>
+
+---
+
+## Q1987
+
+<details>
+<summary>알파벳</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1987
+- 풀이방법(bfs)
+  - bfs를 할 때 queue를 set으로 만들어서 하는게 가능하다는 사실을 알았다.(q.append -> q.add)
+  - 길이를 구하는 문제일때는 bfs가 dfs보다 빠르다.
+  - 코드
+  ```python
+  def bfs():
+    mx = 0
+    q = set()
+    q.add((0,0,board[0][0]))
+    while q:
+        x,y,sentence = q.pop()
+        mx = max(mx,len(sentence))
+        if mx == 26:
+            return 26
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx >= R or ny < 0 or ny >= C:
+                continue
+            if board[nx][ny] in sentence:
+                continue
+            q.add((nx,ny,sentence+board[nx][ny]))
+    return mx
+
+  R,C = map(int,input().split())
+  board = []
+  for i in range(R):
+      board.append(list(input()))
+
+  dx = [1,0,-1,0]
+  dy = [0,1,0,-1]
+
+  print(bfs())
+  ```
+
+- 풀이방법(dfs)
+  - 알파벳 관련 문제가 나오면 비트 마스킹을 떠올려서 효율적으로 할 생각을 해야한다
+    - alpha = [0] * 26
+  - 
+  ```python
+  alpha[table[nx][ny]] = 1
+  solve(nx,ny,l+1)
+  alpha[table[nx][ny]] = 0
+  ```
+  이런식으로 변화-재귀-되돌리기 형식으로 한다.
+  - 코드
+    ```python
+    def solve(x,y,l):
+    global ans
+    ans = max(ans,l)
+
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if 0<=nx<R and 0<=ny<C and alpha[table[nx][ny]] == 0:
+            alpha[table[nx][ny]] = 1
+            solve(nx,ny,l+1)
+            alpha[table[nx][ny]] = 0
+
+    R, C = map(int,input().split())
+    table = []
+    for i in range(R):
+      table.append(list(map(lambda x:ord(x)-65, input().rstrip())))
+    dx = [1,0,-1,0]
+    dy = [0,1,0,-1]
+    alpha = [0] * 26
+    ans = 0
+    alpha[table[0][0]] = 1
+    solve(0,0,1)
+
+    print(ans)
+    ``` 
+
+</details>
 
 ---
