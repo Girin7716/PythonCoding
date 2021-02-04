@@ -1016,3 +1016,206 @@
 </details>
 
 ---
+
+## Q5014
+
+<details>
+<summary>스타트링크</summary>
+
+- 링크 : https://www.acmicpc.net/problem/5014
+- 풀이 방법
+  - bfs를 수행하면서 올라갈 수 있으면 loc+U를 큐에 넣고, 해당 층을 방문했다는 의미로 그 층에 갈 수 있는 최소 버튼 수를 넣는다.
+  - 마찬가지로, 내려갈 수 있으면 loc-D를 큐에 넣고, 해당 층을 방문했다는 의미로 그 층에 갈 수 있는 최소 버튼 수를 넣는다.
+  - 그 후, visited[G]가 -1(초기값)이면 'use the stairs'를 출력하고, 아닐 경우 visited[G]값을 출력하면 된다.
+
+</details>
+
+---
+
+## Q2573
+
+<details>
+<summary>빙산</summary>
+
+- 링크 : https://www.acmicpc.net/problem/5014
+- 풀이 방법(처음 푼 방법(메모리 초과))
+  <details>
+  <summary>코드</summary>
+  
+  ```python
+  import sys
+  import copy
+  from collections import deque
+  input = sys.stdin.readline
+
+  N, M = map(int,input().split())
+
+  board = []
+  for i in range(N):
+    board.append(list(map(int,input().split())))
+
+  dx = [1,0,-1,0]
+  dy = [0,1,0,-1]
+
+  def after_year():
+    temp = copy.deepcopy(board)
+
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] != 0:
+                cnt = 0
+                for k in range(4):
+                    nx = i + dx[k]
+                    ny = j + dy[k]
+                    if nx >= 0 and nx < N and ny >= 0 and ny < M and board[nx][ny] == 0:
+                        cnt+=1
+                temp[i][j] = board[i][j] - cnt
+                if temp[i][j] < 0:
+                    temp[i][j] = 0
+    return temp
+
+  def bfs(x,y,cnt):
+    q = deque()
+    q.append((x,y))
+
+    while q:
+        x,y = q.popleft()
+        visited[x][y] = cnt
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx>=0 and nx<N and ny>=0 and ny<M and visited[nx][ny] == 0 and board[nx][ny]!=0:
+                q.append((nx,ny))
+
+  # return 0,1,2 -> 0 : all melt, 1 : one thing, 2 : more than 2
+  def is_separate():
+    cnt = 0
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] != 0 and visited[i][j] == 0:
+                cnt += 1
+                bfs(i,j,cnt)
+
+    if cnt > 2:
+        return 2
+    else:
+        return cnt
+
+  time = 0
+  while(True):
+    visited = [[0 for _ in range(M)] for _ in range(N)]
+    board = after_year()
+    time+=1
+    flag = is_separate()
+    if flag == 0:
+        print(0)
+        break
+    elif flag == 2:
+        print(time)
+        break
+  ```
+
+  </details> 
+
+  - 처음에는 일단 커다란 로직으로는 아래와 같이 나누었다. 
+    1. 빙산을 녹인다(after_year()) (이때, 빙산은 동시에 녹는다는 것을 생각해야함)(board와 크기가 똑같은 temp를 만들어서 녹은 빙산 값을 저장 후 temp 반환)
+    2. 녹은 빙산들이 분리되어있는지 확인한다(is_separate)
+  - 하지만, 위 과정을 수행하면서 무분별하게 2차원 배열을 생성하면서(after_year에서 temp, bfs에서 visited) 메모리 초과를 받았다.
+
+- 풀이 방법2(pypy통과, python 시간초과)
+  <details>
+  <summary>코드</summary>
+
+  ```python
+  from collections import deque
+  import sys
+  input = sys.stdin.readline
+
+  N,M=map(int,input().split())
+  board = []
+  for i in range(N):
+    board.append(list(map(int,input().split())))
+
+  dx = [1,0,-1,0]
+  dy = [0,1,0,-1]
+
+  def check_near_zero(rem):
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] != 0:
+                cnt = 0
+                for k in range(4):
+                    nx = i + dx[k]
+                    ny = j + dy[k]
+                    if nx >= 0 and nx < N and ny >= 0 and ny < M and board[nx][ny] == 0:
+                        cnt += 1
+                rem.append((i,j,cnt))
+
+  def melting(rem):
+    while rem:
+        x,y,cnt = rem.popleft()
+        board[x][y] -= cnt
+        if board[x][y] <= 0:
+            board[x][y] = 0
+
+  def bfs(x,y,cnt):
+    q = deque()
+    q.append((x,y))
+    visited[x][y] = cnt
+
+    while q:
+        x,y = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx >= 0 and nx < N and ny >= 0 and ny < M and visited[nx][ny] == 0 and board[nx][ny]!=0:
+                visited[nx][ny] = cnt
+                q.append((nx,ny))
+
+
+  def is_separate():
+    cnt = 0
+    for i in range(N):
+        for j in range(M):
+            if board[i][j] != 0 and visited[i][j] == 0:
+                cnt+=1
+                bfs(i,j,cnt)
+
+    return cnt
+
+  time = 0
+
+  while(True):
+    time += 1
+    rem = deque()   # near_zero 저장 큐
+    check_near_zero(rem)
+    still = deque()# 1년 후 빙상이 있는 좌표 저장 큐
+    melting(rem)
+    visited = [[0 for _ in range(M)] for _ in range(N)]
+    flag = is_separate()
+
+    if flag >= 2:
+        print(time)
+        break
+    elif flag == 0:
+        print(0)
+        break
+
+  ```
+
+  </details> 
+  
+  - 그래서, 2차원 리스트를 줄여보고자 아래와 같이 로직을 구성했다.
+    1. 빙산이 녹기 전 빙산의 각 좌표에서의 근처 0의 수를 파악해서 rem이라는 큐에 넣어준다. (좌표,좌표,근처 0의 수)
+       - check_near_zero(rem) 
+    2. rem을 pop하면서 해당 좌표에 (근처 0의 수)를 빼주며 이때 값이 음수가 되면 0으로 바꿔서 저장.
+       - melting(rem) 
+    3. 녹은 빙산을 바탕으로 bfs를 진행하면서 빙산이 두 덩어리 이상(flag>=2)이면 지난 시간을 출력하고, 빙산이 없다면(flag==0) 0을 출력한다.
+       - is_separate()
+
+- 이런식으로의 bfs, dfs에서는 python3로는 통과하기가 힘들다. pypy나 정 모르겠다면 c++로 바꿔서 하는 방법을 익혀야할 필요가 있는것 같다.
+
+</details>
+
+
+---
