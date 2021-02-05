@@ -1219,3 +1219,78 @@
 
 
 ---
+
+## Q14503
+
+<details>
+<summary>로봇 청소기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/14503
+- 풀이 방법
+  - 주어진 조건에 맞추어 구현하면 됨.
+  1. 현재 위치를 청소한다. 
+    
+    ```python
+    # 현재 위치 청소
+    if board[r][c] == 0:
+        answer += 1
+    board[r][c] = 2
+    ``` 
+    
+  2. 현재 위치에서 현재 방향을 기준으로 왼쪽방향부터 차례대로 탐색을 진행한다
+    
+    ```python
+    check = False
+    for i in range(4):
+        d = turn_left(d)
+        nx = r + dx[d]
+        ny = c + dy[d]
+
+        ...
+    ```
+  
+  a. 왼쪽 방향에 아직 청소하지 않은 공간이 존재한다면, 그 방향으로 회전한 다음 한 칸을 전진하고 1번부터 진행한다.
+    
+    ```python
+    if nx >=0 and nx < N and ny >= 0 and ny < M and board[nx][ny] == 0:
+      r = nx
+      c = ny
+      check = True
+      break
+    ```
+  b. 왼쪽 방향에 청소할 공간이 없다면, 그 방향으로 회전하고 2번으로 돌아간다.
+
+    ```python
+    if check == True:   #청소를 했다면
+      continue
+    ```
+  c. 네 방향 모두 청소가 이미 되어있거나 벽인 경우에는, 바라보는 방향을 유지한 채로 한 칸 후진을 하고 2번으로 돌아간다.
+    ```python
+    else:   # 청소를 못함
+      # 후진이 가능
+      if d == 0:
+          nx = r + 1
+          ny = c
+      elif d == 1:
+          nx = r
+          ny = c - 1
+      elif d == 2:
+          nx = r - 1
+          ny = c
+      elif d == 3:
+          nx = r
+          ny = c + 1 
+    ```
+  d. 네 방향 모두 청소가 이미 되어있거나 벽이면서, 뒤쪽 방향이 벽이라 후진도 할 수 없는 경우에는 작동을 멈춘다.
+    ```python
+    if board[nx][ny] == 1:  # 벽
+      break
+    else:   # 후진 가능
+      r = nx
+      c = ny
+    ```
+
+</details>
+
+
+---
