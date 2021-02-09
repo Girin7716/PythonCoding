@@ -1294,3 +1294,32 @@
 
 
 ---
+
+## Q7579
+
+<details>
+<summary>앱</summary>
+
+- 링크 : https://www.acmicpc.net/problem/7579
+- 풀이 방법
+  - 0/1 냅색 문제인것은 알았으나 풀지 못했다.
+  - dp[i][j] : i번째 앱까지 중 j 코스트로 얻을 수 있는 최대 byte
+  
+
+</details>
+
+---
+
+## Q9252
+
+<details>
+<summary>LCS 2</summary>
+
+- 링크 : https://www.acmicpc.net/problem/9252
+- 풀이 방법
+  - 길이는 LCS 풀때처럼 구하면 됨
+  - 문자열은 역추적하면서 만약 해당 숫자가 대각선에서 유래된것이라면 그것을 REM에 저장시키면 된다.
+
+</details>
+
+---
