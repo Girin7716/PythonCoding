@@ -1386,3 +1386,20 @@
 
 
 ---
+
+## Q11049
+
+<details>
+<summary>행렬 곱셈 순서</summary>
+
+- 링크 : https://www.acmicpc.net/problem/11049
+- 풀이 방법
+  - 분명 배웠는데 너무 어렵다. 처음에 dp 설정을 잘못해서 고생했다.
+  - dp[i][j] : i번째 행렬에서 j번째 행렬까지의 최소비용
+  - 점화식 : dp[i][j] = min(dp[i][j],dp[i][k]+dp[k+1][j]+(d[i-1]*d[k]*d[j]))
+    - 대각선으로 올라가면서 식을 구함
+
+</details>
+
+
+---
