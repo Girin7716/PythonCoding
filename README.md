@@ -1525,6 +1525,73 @@ print(bfs())
 
 ---
 
+## 그래프에서 Cycle(사이클)이 있는지 확인하는 방법
+
+<details>
+<summary>참고 사이트</summary>
+
+https://sosoeasy.tistory.com/35
+
+</details>
+
+<details>
+<summary>무향 그래프</summary>
+
+1. stack
+    <details>
+    <summary>코드</summary>
+
+    ```python
+    #싸이클인지 확인
+    def isCycle(L):
+        visitedN=[]
+        myL=list(L)
+        stack=deque([myL[0][0]])    
+        while stack:
+            nowN=stack.pop()
+            #싸이클인지 확인 
+            if nowN in stack: #(if nowN in visitedN도 된다!)
+                return True
+            for i in myL:
+                if nowN in i:
+
+                    if nowN==i[0]:
+                        other=i[1]
+                    else:
+                        other=i[0]
+                    if other not in visitedN:
+                        stack.append(other)
+            visitedN.append(nowN)
+        return False    
+    ```
+
+    - 사이클이 있을땐 stack에는 이미 있지만 아직 visited는 되어지지않은 노드가 stack에 또 들어간다.
+    - 따라서 이미 stack에 있는 노드가 또 들어가는 경우를 찾아 싸이클인지 확인한다.
+
+    </details>
+
+2. union-find
+
+    - 속도가 빠르다.
+    - 내가 아는 그게 맞다.
+
+</details>
+
+<details>
+<summary>유향 그래프</summary>
+
+visited리스트와 fin리스트
+
+- 흔히 탐색할때 쓰는 visited리스트이고, 노드의 탐색이 완전히 끝났을 때(해당 노드에서 갈 수 있는 모든 노드들에 방문이 끝마쳤을때) 쓰는 fin 리스트
+- visited 리스트 : node가 dfs로 들어오면 바로 1로 바꿔주고
+- fin 리스트 : 해당 재귀에서 탐색이 종료되었을 때 맨 마지막 줄에 1로 바꿔준다.
+
+
+</details>
+
+
+---
+
 
 
 
