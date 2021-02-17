@@ -1580,11 +1580,86 @@ https://sosoeasy.tistory.com/35
 <details>
 <summary>유향 그래프</summary>
 
-visited리스트와 fin리스트
+1. topology를 이용하여 cycle이 아닌 노드 찾기
 
-- 흔히 탐색할때 쓰는 visited리스트이고, 노드의 탐색이 완전히 끝났을 때(해당 노드에서 갈 수 있는 모든 노드들에 방문이 끝마쳤을때) 쓰는 fin 리스트
-- visited 리스트 : node가 dfs로 들어오면 바로 1로 바꿔주고
-- fin 리스트 : 해당 재귀에서 탐색이 종료되었을 때 맨 마지막 줄에 1로 바꿔준다.
+   - 처음에 indegree가 0인 node는 Cycle이 아니다.
+     - 이 node와 연결되어 있으면서, 그 순간 indegree가 0이 되면 Cycle이 아닌 node이다.
+
+   - 위 과정이 끝나면, Cycle이 아닌 node들을 찾을 수 있다.
+
+    ```java
+    tc = int(sys.stdin.readline())
+    for _ in range(tc):
+        n = int(sys.stdin.readline())
+
+        graph = [0] + list(map(int, sys.stdin.readline().rstrip().split()))
+
+
+        indegree = [0] * (n + 1)
+        for v in graph[1:]:
+            indegree[v] += 1
+
+        q = deque()
+        for i in range(1, n+1):
+            if indegree[i] == 0:
+                q.append(i)
+
+        visit = [False] * (n+1)
+        noCycleNode = set()
+        while q:
+            a = q.popleft()
+            noCycleNode.add(a)
+
+            indegree[graph[a]] -= 1
+            if indegree[graph[a]] == 0:
+                q.append(graph[a])
+
+        print(len(noCycleNode), noCycleNode)
+    ```
+
+
+
+2. visited리스트와 fin리스트
+
+   - 흔히 탐색할때 쓰는 visited리스트이고, 노드의 탐색이 완전히 끝났을 때(해당 노드에서 갈 수 있는 모든 노드들에 방문이 끝마쳤을때) 쓰는 fin 리스트
+   - visited 리스트 : node가 dfs로 들어오면 바로 1로 바꿔주고
+   - fin 리스트 : 해당 재귀에서 탐색이 종료되었을 때 맨 마지막 줄에 1(True)로 바꿔준다.
+       ```java
+       def dfs(node):
+           global cnt
+
+           visited[node] = True
+           next = graph[node]
+
+           if visited[next] == False:  # 방문 안했으면 next 방문하기
+               dfs(next)
+           elif fin[next] == False:    # next를 이미 방문했지만, 방문이 종료되지 않은 정점이라면 Cycle
+               temp = next
+               while True:
+                   cnt+=1
+                   temp = graph[temp]
+                   if temp == next:
+                       break
+
+           fin[node] = True
+
+       for _ in range(int(input())):
+           n = int(input())
+           selected = [0] + list(map(int,input().split()))
+           cnt = 0
+           graph = {}
+           for i in range(1,n+1):
+               graph[i] = selected[i]
+
+           visited = [False for _ in range(n+1)]
+           fin = [False for _ in range(n+1)]
+
+           for i in range(1,n+1):
+               if visited[i] is False:
+                   dfs(i)
+
+           print(n-cnt)        
+       ```
 
 
 </details>
