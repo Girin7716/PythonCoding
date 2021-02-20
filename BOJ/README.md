@@ -1458,3 +1458,22 @@
 
 
 ---
+
+## Q1644
+
+<details>
+<summary>소수의 연속합</summary>
+
+- 링크 : https://www.acmicpc.net/problem/1644
+- 풀이 방법
+  - 에라토스테네스의 체 알고리즘을 이용하여 주어진 숫자까지의 소수 리스트를 구한다
+  - 그 후, start index와 end index를 만들어서 처음부터 검사한다.
+    - 이때, sum(prime[start:end+1])의 값이 주어진 입력인 n 보다 작을 경우 sum(prime[start:end+1]) 값을 늘려야 하므로 end += 1
+    - sum(prime[start:end+1])의 값이 주어진 입력인 n 보다 클 경우 sum(prime[start:end+1]) 값을 줄여야 하므로 start += 1
+    - sum(prime[start:end+1])과 n이 같을 경우 start:end+1 이상의 범위에서는 더이상 답이 없으므로 start += 1 하고 result += 1을 해준다.
+  - 위 과정이 끝난 뒤 result를 출력하면 된다.
+- 이렇게 하면 1200ms가 나오는데 빠른 사람들은 300~500ms 나오는걸 보아 더 좋은 방법이 있는듯 하다.
+
+</details>
+
+---
