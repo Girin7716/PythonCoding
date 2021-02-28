@@ -376,3 +376,66 @@ def solution(n, costs):
 </details>
 
 ---
+
+## 입국심사
+
+<details>
+<summary>풀이 방법</summary>
+
+처음에는 입력의 숫자를 보고 이분탐색으로 해결해야한다는 느낌이 들었지만 도저히 방법이 떠오르지 않았다. 그래서 일단 naive하게 풀었지만 역시나 테스트케이스 절반만 정답을 맞추고 나머지는 시간초과가 떴다. 고민을 해봤지만 풀지 못해서, 인터넷의 다른 사람의 풀이방법대로 문제를 풀었다.
+>참고 : https://kdgt-programmer.tistory.com/60
+
+이분탐색의 대상은 **답이 될 수 있는 검색시간**이다. 그러므로, 범위를 1 ~ (답이 될 수 있는 검색시간의 최대 범위)이다. 여기서 답이 될 수 있는 검색시간의 최대값은 n*min(times)이다.
+
+그 후, 이분 탐색을 수행하면서 각 심사대가 mid 시간에 수용할 수 있는 사람 수를 계산한다. 
+
+이 사람들의 수가 n보다 크거나 같을 경우 mid의 값을 줄여야 하므로 right = mid -1을 해주고, 이때의 mid값을 answer에 저장해준다. 
+
+이 사람들의 수가 n보다 작을 경우 mid의 값을 늘려야 하므로 left = mid + 1을 해준다.
+
+그러면, 자연스럽게 해당 값을 찾을 수 있다.
+
+</details>
+
+<details>
+<summary>코드</summary>
+
+```python
+def solution(n, times):
+    answer = 0
+    left = 1
+    right = min(times) * n
+
+    while left <= right:
+        mid = (left+right)//2
+        temp = n
+
+        for t in times:
+            temp -= mid//t
+            if temp <= 0:
+                right = mid - 1
+                answer = mid
+                break
+
+        if temp >0:
+            left = mid + 1
+
+    return answer
+```
+
+<details>
+<summary>느낀점</summary>
+
+이분탐색의 문제를 많이 풀어봐야겠다.
+
+이분탐색에서 가장 중요하다고 생각하는 부분은 **이분 탐색의 대상**을 정해야한다는 점이다.
+
+이러한 이분 탐색 대상을 정하는 방법에 능통해져야겠다.
+
+이분탐색의 대상이 될 수 있는 점은 입력의 N의 값을 이분탐색의 대상으로 하거나, 혹은 **답이 될 수 있는 값**을 찾는 것도 가능하다는 것을 알았다.
+
+</details>
+
+</details>
+
+---
