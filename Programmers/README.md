@@ -270,3 +270,109 @@ def solution(k, room_number):
 </details>
 
 ---
+
+## 섬 연결하기
+
+<details>
+<summary>풀이 방법</summary>
+
+처음에는 보자마자 크루스칼 알고리즘을 떠올렸다. 그리고 정답을 맞췄다.
+
+그리고 다른 사람들의 코드를 보니 우선순위 큐를 이용해서 푼 사람들의 코드가 있다는 사실을 알았고, 이를 이용해서 풀면 다른 그리디 문제들도 쉽게 풀 수 있을거 같다는 생각이 들었다.
+
+</details>
+
+<details>
+<summary>코드(우선순위 큐)</summary>
+
+```python
+import heapq
+
+def find_parent(parent,x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent,parent[x])
+    return parent[x]
+
+def union_parent(parent,a,b):
+    a = find_parent(parent,a)
+    b = find_parent(parent,b)
+
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
+
+def solution(n, costs):
+    answer = 0
+    pq = []
+    graph = [[] for _ in range(n)]
+    parent = [i for i in range(n)]
+
+    for a,b,c in costs:
+        graph[a].append([b,c])
+        graph[b].append([a,c])
+        heapq.heappush(pq,[c,a,b])
+
+    edges_cnt = 0
+    while edges_cnt != n-1:
+        c,a,b = heapq.heappop(pq)
+
+        a = find_parent(parent,a)
+        b = find_parent(parent,b)
+
+        if a != b:
+            union_parent(parent,a,b)
+            answer += c
+            edges_cnt+=1
+
+    return answer
+```
+
+</details>
+
+<details>
+<summary>코드(크루스칼)</summary>
+
+```python
+def find_parent(parent,x):
+    if parent[x] != x:
+        parent[x] = find_parent(parent,parent[x])
+    return parent[x]
+
+def union_parent(parent,a,b):
+    a = find_parent(parent,a)
+    b = find_parent(parent,b)
+
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
+
+def solution(n, costs):
+    answer = 0
+    graph = [[] for _ in range(n)]
+    parent = [i for i in range(n)]
+    costs.sort(key = lambda x:x[2])
+
+    for a,b,c in costs:
+        graph[a].append([b,c])
+        graph[b].append([a,c])
+
+    edges_cnt = 0
+    for a,b,c in costs:
+        if edges_cnt == n-1:
+            break
+        a = find_parent(parent,a)
+        b = find_parent(parent,b)
+
+        if a != b:
+            union_parent(parent,a,b)
+            answer += c
+            edges_cnt += 1
+
+    return answer
+```
+
+</details>
+
+---
