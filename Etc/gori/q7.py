@@ -34,7 +34,7 @@ print(bin(1)^bin(3))
 # result = 0
 # for i in range(n):
 #     for j in range(m):
-#         # 현재 위치에서 DFS 수행
+#         # 현재 위치에서 DFS&BFS 수행
 #         if dfs(i,j) == True:
 #             result+=1
 #

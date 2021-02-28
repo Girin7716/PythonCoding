@@ -1,4 +1,4 @@
-# 특정 거리의 도시 찾기 / p339 / DFS,BFS 문제
+# 특정 거리의 도시 찾기 / p339 / DFS&BFS,BFS 문제
 from collections import deque
 
 N,M,K,X = map(int,input().split())

@@ -1,4 +1,4 @@
-# 연산자 끼워 넣기 / p349 / BFS, DFS
+# 연산자 끼워 넣기 / p349 / BFS, DFS&BFS
 from itertools import permutations
 
 N = int(input())

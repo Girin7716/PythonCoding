@@ -1,4 +1,4 @@
-# 블록 이동하기 / p355 / DFS, BFS
+# 블록 이동하기 / p355 / DFS&BFS, BFS
 # 실패
 from collections import deque
 

@@ -48,21 +48,21 @@ def move_shark():
         elif shark[s][3] == 3 or shark[s][3] == 0:
             shark[s][2] = shark[s][2]%(2*C-2)
 
-        for i in range(shark[s][2]):
-            shark[s][0] += dx[shark[s][3] % 4]
-            shark[s][1] += dy[shark[s][3] % 4]
-            if shark[s][0] > R:
-                shark[s][3] = 1
-                shark[s][0] = R-1
-            elif shark[s][0] < 1:
-                shark[s][3] = 2
-                shark[s][0] = 2
-            elif shark[s][1] > C:
-                shark[s][3] = 4
-                shark[s][1] = C-1
-            elif shark[s][1] < 1:
-                shark[s][3] = 3
-                shark[s][1] = 2
+            for i in range(shark[s][2]):
+                shark[s][0] += dx[shark[s][3] % 4]
+                shark[s][1] += dy[shark[s][3] % 4]
+                if shark[s][0] > R:
+                    shark[s][3] = 1
+                    shark[s][0] = R-1
+                elif shark[s][0] < 1:
+                    shark[s][3] = 2
+                    shark[s][0] = 2
+                elif shark[s][1] > C:
+                    shark[s][3] = 4
+                    shark[s][1] = C-1
+                elif shark[s][1] < 1:
+                    shark[s][3] = 3
+                    shark[s][1] = 2
 
         q.append((shark[s][0],shark[s][1],s))
 

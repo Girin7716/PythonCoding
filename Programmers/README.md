@@ -257,3 +257,16 @@ def solution(k, room_number):
 </details>
 
 ---
+
+## 네트워크
+
+<details>
+<summary>풀이 방법</summary>
+
+전형적인 BFS/DFS 문제이다.
+
+노드가 n개 만큼있으니 n개의 노드를 검사하면서 visited가 False인 node를 검사할때 answer+=1해주며, 그 순간 bfs 혹은 dfs를 통해 방문한 노드를 체크해준다. 그러면 같은 네트워크가 형성된다.
+
+</details>
+
+---

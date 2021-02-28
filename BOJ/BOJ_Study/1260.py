@@ -14,7 +14,7 @@ for i in range(M):
     graph[a][b] = 1
     graph[b][a] = 1
 
-# DFS -> 스택 or 재귀
+# DFS&BFS -> 스택 or 재귀
 dfs(V)
 print()
 # BFS -> 큐

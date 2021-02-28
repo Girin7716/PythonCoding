@@ -1,4 +1,4 @@
-# 괄호 변환 / p347 / BFS, DFS
+# 괄호 변환 / p347 / BFS, DFS&BFS
 
 def check_correct(u):
     left = 0

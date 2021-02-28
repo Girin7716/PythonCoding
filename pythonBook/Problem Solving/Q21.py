@@ -1,4 +1,4 @@
-# 인구 이동 / p353 / DFS, BFS
+# 인구 이동 / p353 / DFS&BFS, BFS
 from collections import deque
 
 n,l,r = map(int,input().split())

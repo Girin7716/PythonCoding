@@ -1,4 +1,4 @@
-# 연구소 / p341 / DFS, BFS 문제
+# 연구소 / p341 / DFS&BFS, BFS 문제
 from collections import deque
 from itertools import combinations
 

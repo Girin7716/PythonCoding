@@ -1,4 +1,4 @@
-# 감시 피하기 / p351 / DFS, BFS
+# 감시 피하기 / p351 / DFS&BFS, BFS
 from itertools import permutations
 
 N = int(input())
