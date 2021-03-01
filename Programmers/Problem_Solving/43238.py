@@ -1,5 +1,4 @@
 # 입국심사
-
 def solution(n, times):
     answer = 0
     left = 1
@@ -8,7 +7,7 @@ def solution(n, times):
     while left <= right:
         mid = (left+right)//2
         temp = n
-    
+
         for t in times:
             temp -= mid//t
             if temp <= 0:
