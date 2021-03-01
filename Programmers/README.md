@@ -439,3 +439,78 @@ def solution(n, times):
 </details>
 
 ---
+
+## 징검다리
+
+<details>
+<summary>링크</summary>
+https://programmers.co.kr/learn/courses/30/lessons/43236
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+1 <= distance <= 1,000,000,000을 보고 이분탐색의 느낌이 강했다. 그래서 입국심사 문제를 떠올리면서 이분탐색의 대상을 정하기로 했다.
+
+이분탐색의 대상은 정답의 범위를 대상으로 삼았다. 즉, 바위를 n개 제거한 뒤 각 지점 사이의 거리의 최솟값을 뜻한다.
+
+이분탐색을 진행하면서 오름차순으로 rocks에 저장된 바위들을 순서대로 살펴본다. 
+
+mid 값을 기준으로 저장된 prev에서 검사하는 rock의 거리를 비교한다.
+    - mid > rock - prev
+      - 이 뜻은 바위를 제거해야 각 바위의 최소값이 mid보다 커진다. 그러므로, 해당바위를 제거한다는 의미로 remove_cnt를 +1 해준다.
+    - mid <= rock - prev
+      - 이 뜻은 바위를 제거하면 안된다는 의미로 prev를 해당 바위로 설정하여 이 바위부터 거리를 잰다는 의미로 나타낸다.
+
+위 로직이 끝난 뒤 
+    - remove_cnt가 제거 바위 숫자인 n보다 크다면 mid 값을 줄여야 하므로 right = mid - 1
+    - removen_cnt <= n 이면, answer = mid에 저장하고, mid 값을 올려야하므로 left =mid + 1해준다.
+
+
+</details>
+
+<details>
+<summary>코드</summary>
+
+```python
+# 징검다리
+def solution(distance, rocks, n):
+    answer = 0
+    left = 0
+    right = distance
+
+    rocks.sort()
+
+    while left <= right:
+        mid = (left+right)//2
+        remove_cnt = 0
+        prev = 0
+
+        for rock in rocks:
+            if mid > rock - prev:
+                remove_cnt += 1
+            else:
+                prev = rock
+
+        if remove_cnt > n:
+            right = mid - 1
+        else:
+            answer = mid
+            left = mid + 1
+
+    return answer
+
+print(solution(25,[2, 14, 11, 21, 17],2))
+```
+
+</details>
+
+<details>
+<summary>느낀점</summary>
+
+이분 탐색문제는 탐색의 대상을 정하는 것이고 이러한 대상은 주로 `정답의 범위`가 된다는 점을 알았다.
+
+</details>
+
+---
