@@ -514,3 +514,37 @@ print(solution(25,[2, 14, 11, 21, 17],2))
 </details>
 
 ---
+
+## 디스크 컨트롤러
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42627
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+주어진 입력을 jobs_pq로 우선순위 큐를 만든다.
+
+now_time을 두어서 jobs_pq를 pop하면서 디스크가 받아진 시간(jobs[i][0])이 now_time에 있다면 우선순위큐(pq)에 넣어준다. 만약, 없을 경우는 break를 하면 된다. 그 후, pq에서 하나를 pop한 뒤 answer += (now_time-job[0]) 를 하면 된다.
+
+이때, 하나 조심해야할 점은 아래와 같이 입력이 들어올 수도 있다.
+> print(solution([[0, 3], [4, 9], [5, 6]]))
+
+이럴 경우, [0,3]을 처리 후, now_time이 3이되는데 이 안에 드는 경우가 없으므로 jobs_pq의 첫번째 job을 가져온 뒤 해당 시작 시간을 now_time을 만들어주고 다시 jobs_pq에 push 해주어야한다.
+
+</details>
+
+<details>
+<summary>느낀점</summary>
+
+이 문제는 그리디라고 생각하고 있는데 그리디같은경우는 우선순위 큐를 이용하여 문제를 풀 경우 접근을 잘 할 수 있을 것 같다.
+
+근데 코드가 좀 더럽다. 다른 사람들이 푼 코드를 보고 개선을 해야할 거 같다.
+
+</details>
+
+---
