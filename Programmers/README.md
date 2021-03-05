@@ -585,6 +585,40 @@ for r in rem:
     if r_end < start or r_start > end:
         continue
     result+=1
-````
+```
+
+</details>
+
+---
+
+## 합승 택시 요금
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/72413
+
+</details>
+
+<details>
+<summary>풀이방법(다익스트라)</summary>
+
+이 문제는 크게 보면, 
+```
+S -> (합승 하차) -> A 
+                ->  B
+```
+이러한 경로의 총 합의 최소값을 구하는 문제이다.
+
+그러므로, for문을 통해 모든 노드를 검사하면서 s->i,i->a,i->b로 가는 경로의 합이 최소가 되는 경로를 구하면된다.
+
+오랜만에 다익스트라를 사용하니까 기억이 잘안나 당황했다. 가끔씩은 감을 까먹지않게 연습해둬야겠다.
+
+</details>
+
+<details>
+<summary>풀이방법(플로이드-워셜)</summary>
+
+처음에는 플로이드-워셜 알고리즘으로 풀이를 했으나 테스트케이스 26에서 시간초과를 받아버렸다. 그래서 다익스트라로 수행함. 자세한 로직은 다익스트라 풀이과정에서 설명하겠다.
 
 </details>
