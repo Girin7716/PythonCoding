@@ -658,3 +658,38 @@ https://programmers.co.kr/learn/courses/30/lessons/68646
 그 후, min = int(1e9)를 두고 이러한 rem리스트를 오른쪽에서 부터 검사하여 min > rem[?] 일 경우, answer+=1을 해주고 min 값을 rem[?]로 바꿔준다. 이때, rem[?]가 1일 경우는 무조건 성공하는 경우이므로 그냥 answer+=1을 해주면 정답이 된다.
 
 </details>
+
+---
+
+## [카카오 인턴]키패드 누르기
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/67256
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+이 문제에서 핵심은 2,5,8,0이라는 숫자가 나왔을때 왼손과 오른손 중 무슨 손가락으로 눌러야하는지에 대한 처리가 중요하다고 생각했다.
+
+주어진 키패드에서 내가 처리하기 편하게 `*`은 `10`으로 `0`은 `11`로 `#`은 `12`로 바꿔서 처리하였다.
+
+주어진 입력을 앞에서부터 읽으면서(now), now%3==0이면 오른손, now%3==1이면 왼손을 눌러야하면 누를때마다 각각의 위치에 해당하는 번호를 저장하였다.
+
+그리고 now%3==2이면, 이는 가운데를 눌렀기때문에 왼손과 오른손의 현 위치중에서 가까운 손가락이 눌러야하며 같은 거리일 경우에는 hand에 따라 값이 달라진다.
+
+각각의 손가락이 now의 위치와의 거리를 구하는 방법은 아래와 같다.
+```python
+left_dist = (int((abs(now-left_location)/3))) + abs(now-left_location)%3
+right_dist = (int((abs(now - right_location) / 3))) + abs(now-right_location)%3
+```
+이때 `(int((abs(now-location)/3)))`은 해당 손가락이 now와 세로로 몇칸 차이나는지 나타내고, `abs(now-location)%3`은 해당 손가락이 now와 가로로 몇칸 차이나는지를 나타낸다.
+
+해당 dist를 구하고 같다면 hand에 따라 각각의 처리를 다르게 하면된다.
+
+풀다가보니까, dist구하는 것을 함수화하면 더 간결해질거같다는것을 깨달았다.
+
+</details>
