@@ -202,6 +202,34 @@ ___
 
 </details>
 
+<details>
+<summary>딕셔너리로 만든 그래프로 DFS하기</summary>
+
+- 예제 문제 : https://programmers.co.kr/learn/courses/30/lessons/43164
+- 코드
+```python
+def solution(tickets):
+    answer = []
+    tickets.sort(reverse=True)
+    graph = {}
+    for ticket in tickets:
+        a, b = ticket
+        graph[a] = graph.get(a,[])+[b]
+
+    stack = ["ICN"]
+    while stack:
+        now = stack[-1]
+        if now not in graph or len(graph[now]) == 0:
+            answer.append(stack.pop())
+        else:
+            stack.append(graph[now].pop())
+
+    return answer[::-1]
+```
+
+
+</details>
+
 ---
 <br/>
 

@@ -1620,3 +1620,23 @@ print(max_fatigue - min_fatigue)
 </details>
 
 ---
+
+## Q4485
+
+<details>
+<summary>녹색 옷 입은 애가 젤다지?</summary>
+
+문제를 보고 다익스트라로 풀어야겠다는 생각이 들었는데 처음에는 bfs로 풀어보았지만, 역시 시간초과가 떳다.
+
+그래서 다익스트라로 품.
+
+```python
+if nx < 0 or nx >= N or ny < 0 or ny >= N or dist[nx][ny] <= cost+graph[nx][ny]:
+  continue
+```
+에서 `dist[nx][ny]<=cost+graph[nx][ny]`라는 것을 까먹지말자.
+
+
+</details>
+
+---
