@@ -1,5 +1,7 @@
 # 파이썬 알고리즘 정리 노트
 
+tip : ctrl+alt+m 을 누르면 method를 추출해낼 수 있음.(pychamr에서만)
+
 ## 경우의 수
 
 <details>
@@ -1725,6 +1727,86 @@ def prime_list(n):
 </details>
 
 ---
+
+## eval() - 문자열로 이루어진 수식을 계산하기
+
+<details>
+<summary>예시 문제</summary>
+
+- https://programmers.co.kr/learn/courses/30/lessons/67257
+
+</details>
+
+<details>
+<summary>설명</summary>
+
+예를들어 "500*2"가 있으면 아래와 같이 작성하면 됨.
+```python
+eval("500*2")
+```
+
+그러면, 1000이 나온다. 이때 결과값은 str()가 아닌 int() 혹은 float() 이므로 이를 이용해서 다시 계산할 필요가 있다면 str()로 바꿔야한다.
+
+</details>
+
+<details>
+<summary>코드 예시</summary>
+
+```python
+# 수식 최대화 8:44 ~
+from itertools import permutations
+import copy
+
+def solution(expression):
+    answer = 0
+    expression_list = []
+    rem = ''
+
+    init(expression_list, expression, rem)
+
+    prior = permutations(['+','-','*'],3)
+    #print(list(prior))
+
+    for p in prior:
+        ex_list = copy.deepcopy(expression_list)
+        for i in range(3):
+            idx = -1
+            while True:
+                idx += 1
+                if ex_list[idx] == 'end':
+                    break
+                if ex_list[idx] == p[i]:
+                    ex_list = ex_list[:idx-1]+[str(eval(''.join((ex_list[idx-1:idx+2]))))]+ex_list[idx+2:]
+                    idx-=1
+        answer = max(answer,abs(int(ex_list[0])))
+
+
+    return answer
+
+
+def init(ex_list, expression, rem):
+    index = -1
+    for i in range(len(expression)):
+        if expression[i] == '-' or expression[i] == '+' or expression[i] == '*':
+            index += 2
+            ex_list.append(rem)
+            ex_list.append(expression[i])
+            rem = ''
+        else:
+            rem += expression[i]
+    ex_list.append(rem)
+    ex_list.append('end')
+    # print(ex_list)
+
+
+#result : 60420
+print(solution("100-200*300-500+20"))
+#result : 300
+print(solution("50*6-3*2"))
+
+```
+
+</details>
 
 <!--
 코드 - 출력  markdown 형식
