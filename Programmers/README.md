@@ -693,3 +693,42 @@ right_dist = (int((abs(now - right_location) / 3))) + abs(now-right_location)%3
 풀다가보니까, dist구하는 것을 함수화하면 더 간결해질거같다는것을 깨달았다.
 
 </details>
+
+---
+
+## [카카오 인턴] 수식 최대화
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/67257
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+eval()을 이용하여 문제를 해결했다.
+
+예를들어, "100-200*300-500+20" 이라는 input이 들어오면 아래와 같이 리스트화 시켜준다.(end는 끝을 의미)
+
+```python
+['100', '-', '200', '*', '300', '-', '500', '+', '20', 'end']
+```
+
+그 후, 연산자는 +,-,* 3개이므로 이들의 순열을 구해서 완전탐색하면 된다.
+```python
+prior = permutations(['+','-','*'],3)
+```
+
+그 다음, 연산자 우선순위에 맞게 ex_list를 처음부터 검사하면서 만약 같다면 해당 연산자 앞 뒤로 문자로 만들어서 eval()한 뒤 리스트로 만들어서 다시 만들어주면 된다.
+```python
+ex_list = ex_list[:idx-1]+[str(eval(''.join((ex_list[idx-1:idx+2]))))]+ex_list[idx+2:]
+```
+
+완전 탐색하면서 answer의 max값을 구하면 된다.
+```python
+answer = max(answer,abs(int(ex_list[0])))
+```
+
+</details>
