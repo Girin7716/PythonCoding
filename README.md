@@ -1808,6 +1808,89 @@ print(solution("50*6-3*2"))
 
 </details>
 
+---
+
+## 트리 dp (트리의 독립집합)
+
+<detalis>
+<summary>예시 문제</summary>
+
+- https://www.acmicpc.net/problem/2213
+- https://programmers.co.kr/learn/courses/30/lessons/72416
+
+</details>
+
+<details>
+<summary>개념 설명</summary>
+
+여기에서는 백준_트리의 독립 집합 문제를 가지고 트리 dP를 설명하겠다.
+
+여기서 독립집합은 결국 서브트리의 부모 노드가 선택되면 자식 노드가 선택되면 안되고, 부모노드가 선택되지 않았다면 자식노드가 선택되거나 안될 수 있다.
+
+어떤 한 subtree에서 문제를 두 가지 경우로 나눌 수 있다.
+
+1. subtree의 root 노드를 선택했을 경우
+   - 이 경우, 모든 자식 노들은 선택될 수 없다.
+   - 따라서, 인접한 모든 자식 노드들을 선택하지 않았을 경우의 최대 가중치와 현재 root 노드의 가중치를 더해준다.
+2. subtree의 root 노드를 선택하지 않았을 경우
+   - 이 경우, 노드들은 선택될 수도 있고 선택되지 않을 수도 있다.
+   - 인접한 자식을 선택했을 때, 그 자식 노드의 자식 노드 가중치가 더 높을 수 있기 때문이다.
+   - 따라서, 인접 자시 노드를 선택한 경우와 선택하지 않은 경우를 모두 고려해 가중치가 더 큰 값을 선택한다.
+
+이때 최종결과는 root를 선택한 경우와 그렇지 않은 경우로 나뉘어지며 결과값이 더 큰 경우에 대해 다시 재귀적으로 살펴보며 집합에 포함되는 노드 번호를 추가하면 된다.
+
+</details>
+
+---
+
+## 공부하면서 본 dp 유형들
+
+<details>
+<summary>A+B+C+D=w -> A+B=w-C-D</summary>
+
+문제 링크 : https://www.acmicpc.net/problem/16287
+
+<details>
+<summary>해당 문제 코드<summary>
+
+```python
+import sys
+input = sys.stdin.readline
+
+w,n = map(int,input().split())
+parcel = list(map(int, input().split()))
+dp = [False] * (w+1)
+
+'''
+parcel을 앞에서부터 검사함.
+i와,i보다 큰 값들의 합을 구하고 dp[w-parcel[i]-parcel[j]이면 이미 i보다 작은 인덱스의 값들의 합이 있었다는 의미이므로 'yes' 출력
+i 번째의 값 이전까지 2개씩 뽑아내면서 두 무게의 합이 w 보다 작다면 해당 무게의 dp를 True로 바꿈
+'''
+def check():
+    for i in range(n):
+        for j in range(i + 1, n):
+            if parcel[i] + parcel[j] < w and dp[w - parcel[i] - parcel[j]]:
+                return True
+        for j in range(i):
+            if parcel[i] + parcel[j] < w:
+                dp[parcel[i] + parcel[j]] = True
+
+    return False
+
+if check():
+    print('YES')
+else:
+    print('NO')
+```
+
+</detalis>
+
+1. dp[n] is True => 두개의 합이 n인 값이 존재
+2. dp[w-parcel[i]-parcel[j]를 통해 나머지 인덱스들 중 2개의 합을 더할 경우 w가 될 수 있는지 파악가능(즉, a+b+c+d = w 대신 a+b=w-c-d로 파악가능)
+
+</details>
+
+---
 <!--
 코드 - 출력  markdown 형식
 
