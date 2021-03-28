@@ -1841,6 +1841,19 @@ print(solution("50*6-3*2"))
 
 </details>
 
+<details>
+<summary>생각 정리</summary>
+
+- 그래프와 관련된 문제를 풀 때에는 다익스트라, dfs 등을 많이 사용
+- 특정한 조건이 있을 때 2차원 배열 DP로 품.
+- 트리(tree)는 서로 다른 두 node를 잇는 길이 하나밖에 없는 사이클이 없는 그래프. => 그래프처럼 dp 적용 가능.
+- 트리에서 dp 구현한다는 것은
+  - ex> `특정한 i번째 노드를 루트로 하는 서브 트리`에 대해서 `i번째 루트 노드`를 포함 했을 때와 포함하지 않았을 때 중 조건에 맞는 답을 정의
+- 와 같이 tree dp 적용 가능
+- 독립집합 : 독립집합에 있는 어떤 두 정점도 서로 인접하지 않는 것
+
+</details>
+
 ---
 
 ## 공부하면서 본 dp 유형들
@@ -1966,6 +1979,58 @@ print(min_value)
 </details>
 
 ---
+
+## Rest API
+
+<details>
+<summary>내 생각 정리</summary>
+
+필요한 라이브러리
+```python
+import json
+import requests
+```
+- 여기에서는 json으로 주고 받고한다고 가정
+
+URL을 저장(만약 token이 필요하면 같이 저장)
+```python
+#URL 예시
+API_HOST = 'https://xxx.xxx.xxx'
+#token 예시
+APP_KEY = '93fadcxxxxx'
+```
+headers 조작
+```python
+start_headers = {'X-Auth-Token': APP_KEY,
+           'Content-Type': 'application/json'}
+```
+
+data 담기
+```python
+data = '{"problem":1}'#예시
+```
+
+POST로 보내기
+```python
+#여기에서는 URL/start로 post 방식으로 보낸다고 가정
+start_response = requests.post(API_HOST + '/start', headers=start_headers, data=data)
+
+print(start_response)#제대로 보냈으면 해당 json을 받음
+```
+
+JSON 파싱
+```python
+#start_response로 받은 json을 파싱
+startJsonObject = json.loads(start_response.text)
+
+#해당 json에서 원하는 값을 추출
+print(startJsonObject.get('name'))
+```
+
+</details>
+
+---
+
 <!--
 코드 - 출력  markdown 형식
 
