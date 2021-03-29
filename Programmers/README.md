@@ -808,3 +808,34 @@ for qry in query:
 2. combination, products 사용법에 익숙해지자.
 
 </details>
+
+---
+
+## [2021 카카오]식뉴 아이디 추천
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/72410
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+그냥 로직에 맞게 순서대로 구현했다.
+
+근데 만약에 문자열 처리중 빈문자가 되어버리면 index 처리가 까다로울수 있어서 check하는것을 추가해서 검사함.
+
+</details>
+
+<details>
+<summary>느낀점</summary>
+
+그냥 로직에 맞게 순서대로 구현했다.
+
+근데 나중에 찾아보니까 `정규식`이라는것이 있다는것을 알았다.
+
+공부하면 편할듯...?
+
+</details>
