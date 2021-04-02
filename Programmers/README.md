@@ -867,3 +867,128 @@ for rem in rems:
 그 후, comb가 만약 빈 딕셔너리면 continue, 아닐 경우 max_value를 확인해서 1일경우 continue, 그 외의 경우는 max_value와 같은 값을 가지는 key를 answer에 추가해주면 된다.
 
 </details>
+
+---
+
+## 광고 삽입
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/72414
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+처음 풀때는 시간초과가 몇개 떠써 못풀었다.. 결국 인터넷을 참고하고 누적합이라는 것을 사용한다는 것을 알고 코드 분석을 해보고자 한다.
+
+```python
+def makeSecond(time):
+    time = time.split(':')
+    second = int(time[0])*3600+int(time[1])*60+int(time[2])
+    return second
+
+def makeTime(second):
+    h=second//3600
+    m=(second-(h*3600))//60
+    s=(second-(h*3600)-(m*60))
+    return str(h).zfill(2)+":"+str(m).zfill(2)+":"+str(s).zfill(2)
+```
+- 일단 계산하기 편하게 문자열로 들어오는 time을 정수형 second로 바꿔주는 작업(makeSecond)과 정수형 second를 다시 문자열 time으로 바꿔주는 작업(makeTime)을 구현했다.
+
+```python
+def solution(play_time, adv_time, logs):
+    answer =''
+    play_time = makeSecond(play_time)
+    adv_time = makeSecond(adv_time)
+
+    # 시청자 수 메모
+    memo = [0 for _ in range(play_time+1)]
+    for log in logs:
+        start, end = log.split('-')
+        start = makeSecond(start)
+        end = makeSecond(end)
+
+        memo[start] += 1
+        memo[end] -= 1
+
+    # 누적 시청자 수 메모
+    # 1) 현재 시청자 수
+    for i in range(1,play_time+1):
+        memo[i] = memo[i] + memo[i-1]
+    # 2) 누적 시청자 수
+    for i in range(1,play_time+1):
+        memo[i] = memo[i] + memo[i-1]
+
+    max_play = memo[adv_time-1]
+    start = 0
+    for i in range(adv_time,play_time):
+        play = memo[i] - memo[i-adv_time]
+
+        if play > max_play:
+            max_play = play
+            start = i - adv_time+1
+    answer=makeTime(start)
+
+    return answer
+```
+- 전체코드이고 하나하나씩 분석해보겠다.
+
+```python
+play_time = makeSecond(play_time)
+adv_time = makeSecond(adv_time)
+```
+- 계산하기 편하게 정수형 second로 바꾸기.
+
+```python
+# 시청자 수 메모
+memo = [0 for _ in range(play_time+1)]
+for log in logs:
+    start, end = log.split('-')
+    start = makeSecond(start)
+    end = makeSecond(end)
+
+    memo[start] += 1
+    memo[end] -= 1
+```
+- 시간초 별 시청자수를 기록하기 위한 memo 리스트를 생성해서 log의 start 지점과 end 지점에 표시를 해둔다(start : +1, end : -1)
+
+```python   
+# 누적 시청자 수 메모
+# 1) 현재 시청자 수
+for i in range(1,play_time+1):
+    memo[i] = memo[i] + memo[i-1]
+# 2) 누적 시청자 수
+for i in range(1,play_time+1):
+    memo[i] = memo[i] + memo[i-1]
+```
+- memo 리스트를 이제 누적합으로 만들거다.
+- sum(memo[start:end])로 사용할 경우 최악의 경우 O(N^2)이 걸리지만, 누적합을 사용할 경우 O(N)으로 구할 수 있게된다.
+- 1)에서의 memo 리스틑 아래와 같은 형식일 것이다.
+```
+memo : [0,0,0,1,1,1,1,1,1,1,-1,...]
+```
+- 2)의 작업을 해주면 아래와 같다.
+```
+memo : [0,0,0,1,2,3,4,5,6,7,6,...]
+```
+
+```python
+max_play = memo[adv_time-1]
+start = 0
+for i in range(adv_time,play_time):
+    play = memo[i] - memo[i-adv_time]
+
+    if play > max_play:
+        max_play = play
+        start = i - adv_time+1
+answer=makeTime(start)
+```
+- 이렇게 누적합을 구하게 되면 이제 정답을 찾을 수 있다.
+- 초기화 : start = 0초, max_play : 광고가 0초에 시작해서 끝날때의 누적합
+- 시간초의 끝지점만 알면 광고시작 시간도 알 수 있으니까, adv_time부터 검사해서 play_time까지 for문을 돌리면된다.
+- 그래서 가장 누적합이 큰 부분의 시간을 저장해서 출력해주면됨.
+
+</details>
