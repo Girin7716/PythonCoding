@@ -992,3 +992,80 @@ answer=makeTime(start)
 - 그래서 가장 누적합이 큰 부분의 시간을 저장해서 출력해주면됨.
 
 </details>
+
+---
+
+## 자물쇠와 열쇠
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/60059
+
+</details>
+
+<details>
+<summary>풀이 방법</summary>
+
+방법은 알겠는데 구현에 실패했다.. 그래서 인터넷에 검색해서 그 사람의 코드를 분석하는 방향으로 진행함.
+
+```python
+def attach(x, y, M, key, board):
+    for i in range(M):
+        for j in range(M):
+            board[x + i][y + j] += key[i][j]
+```
+- lock에 열쇠를 더하는 과정
+
+```python
+def detach(x, y, M, key, board):
+    for i in range(M):
+        for j in range(M):
+            board[x + i][y + j] -= key[i][j]
+```
+- lock에 열쇠를 빼는 과정
+
+```python
+def rotate90(arr):
+    return list(zip(*arr[::-1]))
+```
+- 열쇠를 90도 회전하는 과정
+
+```python
+def check(board, M, N):
+    for i in range(N):
+        for j in range(N):
+            if board[M + i][M + j] != 1:
+                return False;
+    return True
+```
+- lock을 확인해서 열리는지 확인하는 과정
+
+```python
+def solution(key, lock):
+    M, N = len(key), len(lock)
+
+    board = [[0] * (M * 2 + N) for _ in range(M * 2 + N)]
+    # 자물쇠 중앙 배치
+    for i in range(N):
+        for j in range(N):
+            board[M + i][M + j] = lock[i][j]
+
+    rotated_key = key
+    # 모든 방향 (4번 루프)
+    for _ in range(4):
+        rotated_key = rotate90(rotated_key)
+        for x in range(1, M + N):
+            for y in range(1, M + N):
+                # 열쇠 넣어보기
+                attach(x, y, M, rotated_key, board)
+                # lock 가능 check
+                if (check(board, M, N)):
+                    return True
+                # 열쇠 빼기
+                detach(x, y, M, rotated_key, board)
+
+    return False
+``` 
+
+</details>
