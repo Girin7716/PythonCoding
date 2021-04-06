@@ -1838,3 +1838,69 @@ https://www.acmicpc.net/problem/4195
 딕셔너리의 활용하는 법과 disjoint set의 활용법에 익숙해지자.
 
 </details>
+
+---
+
+## Q14499
+
+<details>
+<summary>주사위 굴리기</summary>
+
+- 링크 : https://www.acmicpc.net/problem/14499
+
+### 풀이 방법
+
+문제 이해하는데 엄청 오래걸렸다...
+
+주어진 입력을 받고 주사위가 움직이는 행동을 구현하면 된다. 이때, 방향으로 주어지는 것이 1:동쪽,2:서쪽,3:북쪽,4:남쪽이므로
+아래와 같이 dx,dy를 구성했다.
+```python
+dx = [0,0,-1,1]
+dy = [1,-1,0,0]
+```
+
+그 다음 주사위가 다음 갈 좌표를 생성한다.
+```python
+dir = moveInput[i] - 1
+nx = x + dx[dir]
+ny = y + dy[dir]
+```
+
+그 후 주사위가 방향대로 움직였을 경우를 처리해주면 된다.
+```python
+if dir==0:  # 동
+    dice[0],dice[3],dice[5],dice[2] = dice[3],dice[5],dice[2],dice[0]
+elif dir==1: # 서
+    dice[0],dice[2],dice[5],dice[3] = dice[2],dice[5],dice[3],dice[0]
+elif dir==2:    # 북
+    dice[5],dice[4],dice[0],dice[1] = dice[4],dice[0],dice[1],dice[5]
+elif dir==3:    # 남
+    dice[5],dice[1],dice[0],dice[4] = dice[1],dice[0],dice[4],dice[5]   # swap 개념인듯..?
+    # dice[5] = dice[1]
+    # dice[1] = dice[0]
+    # dice[0] = dice[4]
+    # dice[4] = dice[5]
+
+```
+- 여기서 새로안 사실은 
+```python
+dice[5],dice[1],dice[0],dice[4] = dice[1],dice[0],dice[4],dice[5]
+# dice[5] = dice[1]
+# dice[1] = dice[0]
+# dice[0] = dice[4]
+# dice[4] = dice[5]
+```
+이렇게 값을 넣어주면, 동작이 swap의 형태로 동작하는것 같다. 왜냐하면 주석 부분 처럼 동작을 한다면 이미 값이 바뀐것을 줄 수 있기 때문에 data 손실이 일어날 수 있다. 그런데, 위 부분에서는 그러한 점이 없고 잘 바뀌었다.
+
+```python
+if board[nx][ny] == 0:
+    board[nx][ny] = dice[5]
+else:
+    dice[5] = board[nx][ny]
+    board[nx][ny] = 0
+```
+- 그 후, 주사위 아랫면(`dice[5]`)이 있는 부분의 board의 값을 확인해서 문제와 같이 처리해주면 된다.
+
+마지막으로 주사위 윗면인 `dice[0]`를 출력하면 된다.
+
+</details>
