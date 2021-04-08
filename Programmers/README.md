@@ -1069,3 +1069,58 @@ def solution(key, lock):
 ``` 
 
 </details>
+
+---
+
+## 가장 먼 노드
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/49189
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+```python
+graph = [[] for _ in range(n+1)]
+visited = [False] * (n + 1)
+number = [0] * (n + 1)
+for edge in edges:
+    a,b = edge
+    graph[a].append(b)
+    graph[b].append(a)
+```
+- 그래프 생성
+
+```python
+q = deque()
+q.append(1)
+visited[1] = True
+max_value = 0
+
+while q:
+    now = q.popleft()
+    for i in graph[now]:
+        if visited[i] is True:
+            continue
+        visited[i] = True
+        q.append(i)
+        number[i] = number[now] + 1
+        if number[i] > max_value:
+            max_value = number[i]
+```
+- 생성한 그래프를 바탕으로 bfs 시작
+- 이때, 거리를 알아야하므로 방문한 노드의 거리를 알기 위해서 `number[i] = number[now]+1`을 추가해줘서 거리를 파악
+- 또한, 나중에 가장 먼 노드를 찾기 위해서 max값을 추가로 update
+
+```python
+for n in number:
+    if n == max_value:
+        answer+=1
+```
+- 가장 먼 노드의 거리에 해당하는 노드의 개수 파악
+
+</details>
