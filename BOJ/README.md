@@ -1975,4 +1975,72 @@ print(answer)
 
 
 
+</details>
+
+---
+
+## Q19236
+
 <details>
+<summary>청소년 상어</summary>
+
+- 링크 : https://www.acmicpc.net/problem/19236
+
+### 풀이방법
+
+처음에 물고기들의 위치를 빨리 찾기위해서 딕셔너리(key: 물고기 번호, value: (좌표1,좌표2,방향))를 이용했는데 dfs+backtracking을 하니까 처리하기 힘들어서 실패했다.
+
+그래서, 그냥 board에 (물고기번호,방향)으로 저장하고 문제의 지시사항에 맞게 코드를 작성했다.
+
+```python
+def dfs(x,y,total,board):
+    global answer
+    board = copy.deepcopy(board)
+
+    total += board[x][y][0]
+    board[x][y] = (-1,board[x][y][1])
+
+    fishesMove(board)
+
+    pos = sharkPosition(board,x,y,board[x][y][1])
+
+    answer = max(answer,total)
+    remDir = board[x][y][1]
+    for p in pos:
+        nx,ny,nd = p
+        board[x][y] = (0,0)
+        dfs(nx,ny,total,board)
+        board[x][y] = (-1,remDir)
+```
+- dfs함수이다.
+- backtracking을 하기 위해서는 board를 deepcopy해야했다.
+- 
+```python
+board[x][y] = (0,0)
+dfs(nx,ny,total,board)
+board[x][y] = (-1,remDir)
+```
+- 위 처럼 dfs하고난 후에는 원상복구 시켜야 다음 탐색에 영향을 받지 않는다.
+
+또한, 하나때문에 해맸는데 문제에서 `물고기가 없으면 상어는 이동할 수 없다`라는 문구가 그 좌표로 이동할 수 없다지 그 다음 좌표로는 이동할 수 있다.
+
+
+```python
+def sharkPosition(board,x,y,d):
+    pos = []
+    while True:
+        nx = x + dir[d][0]
+        ny = y + dir[d][1]
+        if nx < 0 or nx >= 4 or ny < 0 or ny >= 4:
+            break
+        if board[nx][ny] == (0,0):
+            x,y=nx,ny
+            continue
+        pos.append((nx,ny,board[nx][ny][1]))
+        x,y=nx,ny
+
+    return pos
+```
+- 그래서 물고기가 없다면 break가 아닌 continue로 넘겨야한다.
+
+</details>
