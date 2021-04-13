@@ -1124,3 +1124,51 @@ for n in number:
 - 가장 먼 노드의 거리에 해당하는 노드의 개수 파악
 
 </details>
+
+---
+
+## 베스트앨범
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42579
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+```python
+# 베스트앨범
+import heapq
+
+def solution(genres, plays):
+    answer = []
+    bestMusic = {}  # key: genres, value: 해당 장르를 가지는 plays를 원소로가지는 우선순위 큐(MaxHeap)
+    totalplay = {}  # key: genres, value: plays의 총합
+
+    # input을 바탕으로 딕셔너리 형성
+    for i in range(len(genres)):
+        totalplay[genres[i]] = totalplay.get(genres[i],0) + plays[i]
+        try:
+            heapq.heappush(bestMusic[genres[i]], (-plays[i], i))
+        except:
+            bestMusic[genres[i]] = [(-plays[i], i)]
+
+    # value: plays의 총합을 기준으로 내림차순으로 정렬
+    totalplay = sorted(totalplay, key=lambda x: totalplay[x],reverse=True)
+
+    # 내림차순으로 정렬된 totalplay를 하나씩 보면서
+    for t in totalplay:
+        # bestMusic 장르에 해당하는 answer를 Maxheap으로 pop한다(이때, 2번째 원소는 minheap이니까 값이 같으면 인덱스가 작은원소가 나옴), 2개이상이면 그만.
+        for i in range(len(bestMusic[t])):
+            if i == 2:
+                break
+            answer.append(heapq.heappop(bestMusic[t])[1])
+
+    return answer
+```
+- 전체코드
+
+</details>
