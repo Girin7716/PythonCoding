@@ -89,6 +89,7 @@ def solution(phone_book):
     - 이러한 과정을 통해서, 결국 마지막에는 max = mid 후 break문에 들어가서 while의 조건인 min < max -1을 벗어나 탈출하며 return max를하면 정답이 나온다.
 
 </details>
+
 ---
 
 ## 불량 사용자
@@ -1170,5 +1171,44 @@ def solution(genres, plays):
     return answer
 ```
 - 전체코드
+
+</details>
+
+---
+
+## 다리를 지나는 트럭
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42583
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+다리를 위에 있는 트럭을 시간에 따른 움직임을 표현하기 위해 아래와 같이 리스트를 선언했다.
+```python
+onBridge = deque([0] * (bridge_length))
+```
+
+그 후, input으로 주어진 truck_weights를 큐로 바꾼 후 앞에서부터 하나씩 트럭을 popleft하면서 onBridge위에 있는 트럭의 총 무게가 다리가 견딜 수 있는 무게라면 트럭을 올리고, 아닐 경우에는 올리지 않는다.
+```python
+while truck_weights:
+    answer+=1
+    outTruck = onBridge.popleft()
+    sumOnBridge -= outTruck
+    if sumOnBridge + truck_weights[0] <= weight:
+        onBridge.append(truck_weights.popleft())
+        sumOnBridge += onBridge[-1]
+    else:
+        onBridge.append(0)
+```
+
+그러면 마지막 트럭이 다리에 올라가자마자 while문이 종료되는데 이 뜻은 마지막 트럭이 다리를 건너는 순간이 총 걸린 시간이므로 아래와 같은 작업을 해주면 된다.
+```python
+answer+=bridge_length
+```
 
 </details>
