@@ -1212,3 +1212,59 @@ answer+=bridge_length
 ```
 
 </details>
+
+---
+
+## 주식가격
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42584
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+처음에는 그냥 이중반복문으로 풀었으나 시간초과..
+
+그렇게해서 시간을 줄이고자 생각한 방법이 deque를 사용하는것이다.
+
+```python
+answer = [0] * (len(prices))
+q = deque()
+index = -1
+for price in prices:
+    index+=1
+    if q == deque():
+        q.append((price,index))
+        continue
+
+    while q != deque():
+        if q[-1][0] > price:
+            p,i = q.pop()
+            answer[i] = index-i
+        else:
+            break
+    q.append((price,index))
+```
+- answer를 prices길이만큼 0으로 초기화시켜준다
+- prices를 차례대로 살펴보면서
+- q과 비어있다면 (price,index)를 넣어주고 다음 price를 확인한다.
+- q의 마지막 원소가 price보다 클 경우 이는 주식가격이 하락했다는 의미이므로 pop()을 해서 마지막원소를 제거 후 해당 원소의 index값을 기반으로 `answer[i] = index -i`를 해주면된다. 그리고 이를 반복하면서 마지막 원소값이 price보다 작거나 같으면 그만두면 된다.(왜냐하면 q에는 항상 주식가격이 증가하는 값만 넣을것이기 때문)
+- 그리고 마지막으로 q에 (price,index)를 넣어주면 된다.
+
+```python
+last_p,last_i = q.pop()
+while q:
+    p,i = q.popleft()
+    answer[i] = last_i-i
+
+return answer
+```
+- 이 부분은, q에 남아있는 부분을 처리하는 곳이다.
+- q에 남아있다는 의미는 q에 원소를 넣은 시점부터 끝까지 가격이 상승했다는 의미와 같다.
+- 그래서 q를 앞에서부터 popleft()하고, last_i-i를 하면된다.
+
+</details>
