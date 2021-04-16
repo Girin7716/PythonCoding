@@ -1268,3 +1268,25 @@ return answer
 - 그래서 q를 앞에서부터 popleft()하고, last_i-i를 하면된다.
 
 </details>
+
+---
+
+## 더 맵게
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42626
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+1. 주어진 scoville을 minHeap으로 만들어준다
+2. pq가 비어있을때까지 반복문을 반복한다
+3. 첫번째 원소를 꺼내어서 그 값이 K 보다 크거나 같을 경우 minHeap의 모든 원소는 K보다 크거나 같기 때문에 그만둔다.
+4. 혹은 첫번째 원소를 꺼냇는데 pq가 비어있다면 이는 minHeap의 모든 원소가 scoville보다 작다는 의미이므로 -1을 반환하면 된다.
+5. 그 외의 경우는 두번째 원소를 꺼내서 스코빌 계산에 맞춰 계산하고 해당 값을 minHeap에 넣어주고 answer+=1을 한다.
+
+</details>
