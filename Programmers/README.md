@@ -1290,3 +1290,25 @@ https://programmers.co.kr/learn/courses/30/lessons/42626
 5. 그 외의 경우는 두번째 원소를 꺼내서 스코빌 계산에 맞춰 계산하고 해당 값을 minHeap에 넣어주고 answer+=1을 한다.
 
 </details>
+
+---
+
+## 소수 찾기
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42839
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+주어진 numbers에서 조합 가능한 모든 숫자에 대해서 소수인지 판별하는 문제이다.
+
+그래서 일단 numbers의 길이를 구해서 에라토스테네스의 체 알고리즘을 사용하여 최대 numbers의 길이만큼의 수 중 소수를 구했고 이를 dictionary의 key로 value는 True 값을 넣어주었다.
+
+그 후, numbers를 permutations으로 완전탐색하여 숫자들을 구하고 구한 숫자가 dictionary의 key이면서 value가 True이면 소수인 것이다(이때 만약 value가 False라면 이는 완전탐색에서 나온 숫자가 중복되어서 나왔다는 것을 의미해서 answer+=1을 하면 안된다.)
+
+</details>
