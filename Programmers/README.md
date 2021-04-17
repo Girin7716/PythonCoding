@@ -1312,3 +1312,63 @@ https://programmers.co.kr/learn/courses/30/lessons/42839
 그 후, numbers를 permutations으로 완전탐색하여 숫자들을 구하고 구한 숫자가 dictionary의 key이면서 value가 True이면 소수인 것이다(이때 만약 value가 False라면 이는 완전탐색에서 나온 숫자가 중복되어서 나왔다는 것을 의미해서 answer+=1을 하면 안된다.)
 
 </details>
+
+---
+
+## 순위
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/49191
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+처음에는 위상정렬로 풀어볼려고 했으나 실패함. 그래서 인터넷에서 참고하니 `이긴횟수 + 진 횟수 == n-1`이 될 경우 순위를 확정할 수 있다는 사실을 알고 이를 적용해서 graph를 두개 만들어서 bfs를 통해 답을 구하게 되었다.
+
+```python
+# 순위
+from collections import deque
+
+def solution(n, results):
+    answer = 0
+    winner = [[] for _ in range(n+1)]   # Parent:진 사람, Child : 이긴사람
+    loser = [[] for _ in range(n+1)]    # Parent:이긴사람, Child : 진 사람
+    total = [0] * (n+1) # 각 권투 선수의 이기고 진 횟수의 총 합
+
+    for result in results:
+        a,b = result
+        loser[b].append(a)
+        winner[a].append(b)
+
+    def bfs(graph,i):
+        q = deque()
+        q.append(i)
+        visited = [False] * (n+1)
+
+        while q:
+            now = q.popleft()
+            for nxt in graph[now]:
+                if visited[nxt] is True:
+                    continue
+                visited[nxt] = True
+                total[i] += 1
+                q.append(nxt)
+
+    # 각 선수마다 이기고 진 회수 bfs로 구하기
+    for i in range(1,n+1):
+        bfs(winner,i)
+        bfs(loser,i)
+
+    # total의 값이 n-1이면 순위가 확정된 것이므로 개수 파악
+    for t in total:
+        if t == n-1:
+            answer+=1
+
+    return answer
+```
+
+</details>
