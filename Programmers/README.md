@@ -1372,3 +1372,64 @@ def solution(n, results):
 ```
 
 </details>
+
+---
+
+## H-Index
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42747
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+문제 이해하는것도 힘들었다.
+
+예시를 보면 [3, 0, 6, 1, 5]에서 적절한 h값을 구하는 것이 목적이다.
+
+이때, h란 h번 이상 인용된 논문이 h편 이상이고 나머지 논문이 h번 이하 인용되었을때 h의 최댓값이다.
+
+즉, [3, 0, 6, 1, 5] 예제에서 sorting을 하면 [0, 1, 3, 5, 6]이 되고 h가 2,3,4일때를 보면
+- 2번이상 인용 -> 3,5,6 (2번 이상 인용된 논문이 2편 이상)
+- 2번이하 인용 -> 0,1 (2번 이하 인용된 논문이 2편 이하)
+  - h가 2일 수도 있음
+- 3번이상 인용 -> 3,5,6 (3번 이상 인용된 논문이 3편 이상)
+- 3번이하 인용 -> 0,1,3 (3번 이하 인용된 노문이 3편 이하)
+  - h가 3일 수도 있음
+- 4번이상 인용 -> 5,6(4번 이상 인용된 논문이 4편 이상이 아님)
+  - h는 4일 수 없다
+
+그러므로, 위 예시에서는 h의 최댓값은 4가 된다.
+
+```python
+answer = 0
+length = len(citations)
+citations.sort()
+for i in range(length):
+    if citations[i] >= length - i:
+        answer = length - i
+        break
+```
+- 오름차순으로 정렬된 citations을 하나하나 보면서, `해당 원소의 값 >= 해당 원소를 포함해서 남은 원소의 개수` 이면 h의 최댓값이 `남은 원소의 개수`로 정할 수 있다.
+
+
+```python
+# H-Index
+def solution(citations):
+    answer = 0
+    length = len(citations)
+    citations.sort()
+    for i in range(length):
+        if citations[i] >= length - i:
+            answer = length - i
+            break
+
+    return answer
+```
+
+
+</details>
