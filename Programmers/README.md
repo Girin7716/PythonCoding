@@ -1433,3 +1433,46 @@ def solution(citations):
 
 
 </details>
+
+---
+
+## 카펫
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42842
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+일단, 카펫의 총 블럭수는 `brown + yellow`이다.
+
+이때, yellow는 가운데에 위치해있으므로 yellow의 개수는 `(가로길이-2)*(세로길이-2)`가 된다.
+![carpet](./readme_img/carpet.JPG)
+
+totalBlock의 될 수 있는 경우를 보면서(단, 가로길이 >= 세로길이) 위 해당 경우의 yellow수와 주어진 yellow의 수가 같다면 정답이다.
+
+```python
+# 카펫
+def solution(brown, yellow):
+    answer = []
+    row = 3 # 최소 세로 길이
+
+    totalBlock = brown + yellow
+
+    for col in range(3,(totalBlock//row)+1):
+        row = totalBlock//col
+        yellowCnt = (row-2) * (col-2)
+        if yellowCnt == yellow:
+            answer = [col,row]
+        if col > row:
+            continue
+
+    return answer
+```
+
+
+</details>
