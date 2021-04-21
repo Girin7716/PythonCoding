@@ -1474,5 +1474,53 @@ def solution(brown, yellow):
     return answer
 ```
 
+</details>
+
+---
+
+## 단어 변환
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/43163
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+삽질했던 문제..
+
+처음에 dfs로 풀다가 테스트케이스3이 계속 오류발생해서 이리저리 하다가 우선순위큐 사용해서 풀었다.
+
+근데 문제는, 위 방법이 잘못되었던게 아니고 다른곳에서 문제가 있었다.
+```python
+def check(i, j,l):
+    cnt = 0
+    for k in range(l):
+        if words[i][k] != words[j][k]:
+            cnt += 1
+    if cnt >= 2:
+        return False
+    return True
+```
+- 단어를 비교해서, 몇개가 다른지 check하는 부분인데 이때 반복문을 단어길이가 아닌 3으로 고정시켜두고 하고있었다...
+
+```python
+pq = []
+heapq.heappush(pq,(0,begin))
+while pq:
+    cnt,now = heapq.heappop(pq)
+    if cnt > length:
+        continue
+    if now == target:
+        answer = cnt
+        break
+    for nxt in graph[now]:
+        heapq.heappush(pq,(cnt+1,nxt))
+```
+- 나 같은 경우, 우선순위 큐로 탐색하면서 단어가 같으면 우선순위가 높으므로 해당 cnt가 answer이다.
+- 혹은, cnt가 length를 넘어가면 더 볼 필요없으므로 그만하면된다.
 
 </details>
