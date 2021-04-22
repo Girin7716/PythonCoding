@@ -2109,6 +2109,18 @@ dictionary와 유사함.
 | Difference | `s-t` | O(len(s)+len(t)) | 차집합 |
 | Symmetric Diff | `s^t` | O(len(s)+len(t)) | 두 집합의 상대 여집합의 합|
 
+</details>
+
+<details>
+<summary>heapq</summary>
+
+python에서 우선순위큐는 minHeap으로 동작한다. 여기서 주의할 점은, 자바의 `PriorityQueue` 클래스 처럼 자료구조가 아니고 보통의 리스트를 힙처럼 다룰수 있게 도와주는 역할임.
+
+|   Operation     |                              예시                               |                              Big-O                               |                            참고                           |                              
+| ------ | :----------------------------------------------------------: | :----------------------------------------------------------: | :-----------------------------------------------------: | 
+| heappush | `heapq.heappush(list,5)` | O(logN) | |
+| heapify | `heapq.heapify(list)` | O(N) | 기존에 있던 리스트를 heap으로 만듦 |
+| heappop | `heapq.heappop(list)` | O(logN) | |
 
 </details>
 
