@@ -289,6 +289,19 @@ ___
 <br />
 
 ## 파이썬 내장 함수
+
+<details>
+<summary>sort 활용</summary>
+
+- 문자열의 길이(length)를 통해 정렬
+
+```python
+orders.sort()  # 그냥 sort는 사전순으로 정렬해줌.
+orders.sort(key=lambda x: len(x))  # 길이순으로 정렬해줌.
+```
+
+</details>
+
 <details>
 <summary>수학 수식 계산(eval())</summary>
 
@@ -1850,7 +1863,7 @@ print(solution("50*6-3*2"))
 - 트리에서 dp 구현한다는 것은
   - ex> `특정한 i번째 노드를 루트로 하는 서브 트리`에 대해서 `i번째 루트 노드`를 포함 했을 때와 포함하지 않았을 때 중 조건에 맞는 답을 정의
 - 와 같이 tree dp 적용 가능
-- 독립집합 : 독립집합에 있는 어떤 두 정점도 서로 인접하지 않는 것
+- 독립집합 : 독립집합에 있는 ????????????????????????????????????????????????????????떤 두 정점도 서로 인접하지 않는 것
 
 </details>
 
@@ -2030,6 +2043,74 @@ print(startJsonObject.get('name'))
 </details>
 
 ---
+
+## python 라이브러리 시간복잡도
+
+<details>
+<summary>list</summary>
+
+|   Operation     |                              예시                               |                              Big-O                               |                            참고                           |                              
+| ------ | :----------------------------------------------------------: | :----------------------------------------------------------: | :-----------------------------------------------------: | 
+| Length | `len(list)` | O(1) | |
+| Append | `list.append(3)` | O(1) | |
+| Pop | `list.pop()` | O(1) | |
+| Clear | `list.clear()` | O(1) | list = []과 유사 |
+| Slice | `list[a:b]` | O(b-a) | `list[:]` => O(N) |
+| Check ==, != | `listA == listB` | O(N) | listA와 listB 비교 |
+| Insert | `list.insert(i,v)` | O(N) | i 위치에 v를 추가 |
+| Delete | `del list[i]` | O(N) |  |
+| Remove | `list.remove(a)` | O(N) | 원소 a 삭제 |
+| Containment | `x in list` or `x not in list` | O(N) | 검색 |
+| Extreme value | `min(list) or max(list)` | O(N) | |
+| Sort | `list.sort()` | O(N logN) | |
+|
+
+</details>
+
+<details>
+<summary>Dict</summary>
+
+iteration 제외 거의 O(1)라고 생각하면됨. 
+
+</details>
+
+<details>
+<summary>deque</summary>
+
+내부적으로 doubly 링크드 리스트로 표현.
+
+|   Operation     |                              예시                               |                              Big-O                               |                            참고                           |                              
+| ------ | :----------------------------------------------------------: | :----------------------------------------------------------: | :-----------------------------------------------------: | 
+| Append | `deque.append(3)` | O(1) | |
+| Appendleft | `deque.appendleft(3)` | O(1) | |
+| Pop | `deque.pop()` | O(1) | |
+| Popleft | `deque.popleft()` | O(1) | |
+| Length | `len(list)` | O(1) | |
+
+</details>
+
+<details>
+<summary>set</summary>
+
+dictionary와 유사함.
+
+|   Operation     |                              예시                               |                              Big-O                               |                            참고                           |                              
+| ------ | :----------------------------------------------------------: | :----------------------------------------------------------: | :-----------------------------------------------------: | 
+| Length | `len(s)` | O(1) | |
+| Add | `s.add(10)` | O(1) | |
+| Containment | `10 in s` or `100 not in s` | O(1) | 집합에 특정 원소가 있는지 확인, list/tuple은 O(N) |
+| Remove | `s.remove(10)` | O(1) | list/tuple은 O(N) |
+| Discard | `s.discard(10)` | O(1) | remove와 다른점은 지우려는 원소가 존재하지 않아도 KeyError가 발생하지 않는다. |
+| Pop | `s.pop()` | O(1) | set에서 임의의 원소 하나를 제거|
+| Check ==, != | `s == t or s != t` | O(len(s)) | 모든 원소가 동일하면 동일한 집합 |
+| Check Subset | `s <= t or s >= t` | O(len(s)) , O(len(t)) | Subset 쪽의 모든 원소가 superset에 존재하는지 확인|
+| Union | `sㅣt` | O(len(s)+len(t)) | 합집합 |
+| Intersection | `s&t` | O(len(s)+len(t)) | 교집합 |
+| Difference | `s-t` | O(len(s)+len(t)) | 차집합 |
+| Symmetric Diff | `s^t` | O(len(s)+len(t)) | 두 집합의 상대 여집합의 합|
+
+
+</details>
 
 <!--
 코드 - 출력  markdown 형식
