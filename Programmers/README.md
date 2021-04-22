@@ -1524,3 +1524,32 @@ while pq:
 - 혹은, cnt가 length를 넘어가면 더 볼 필요없으므로 그만하면된다.
 
 </details>
+
+---
+
+## 이중우선순위큐
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42628
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+구현해야 되는 기능
+1. I 숫자   => 큐에 주어진 숫자를 삽입합니다.
+2. D 1      => 큐에서 최댓값을 삭제합니다.
+3. D -1     => 큐에서 최솟값을 삭제합니다.
+4. 큐가 비어있는데 삭제할 경우 무시
+5. 모든 연산 후, 큐가 비워있으면 `[0,0]`, 아닐경우 `[최댓값, 최솟값]` 출력
+
+deque를 사용하며, 숫자를 넣을때마다 deque를 오름차순으로 sorting해준다.
+
+그 후, 최댓값을 삭제할 경우 pop(), 최솟값을 삭제할 경우 popleft()를 한다.
+
+연산이 마치면, deque가 비워있을경우 `[0,0]`을 반환, 아닐 경우 `[answer[-1],answer[0]]`을 반환하면 된다.
+
+</details>
