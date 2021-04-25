@@ -1553,3 +1553,46 @@ deque를 사용하며, 숫자를 넣을때마다 deque를 오름차순으로 sorting해준다.
 연산이 마치면, deque가 비워있을경우 `[0,0]`을 반환, 아닐 경우 `[answer[-1],answer[0]]`을 반환하면 된다.
 
 </details>
+
+---
+
+## 단속카메라
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/42884
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+처음에는 -30,000~30,000 길이만큼의  road 리스트를 만들어서 차량이 속한 거리에 +1 하여 최댓값을 찾아가볼까라는 생각을 했으나, 시간이 오래걸릴거같아서 다른 방법을 생각해보기로 했다.
+
+![42884](./readme_img/42884.JPG)
+- 예시를 그려보면 이런 모양이 되는 것을 알 수 있다.
+- 우리는 여기서 모든 차량이 한번씩 카메라에 보여야하며 최소한의 수로 카메라를 설치해야한다.
+
+일단, 카메라는 최대한 차량이 겹치는 구간에 설치하는 것이 좋다. 그러므로, 카메라 설치 후보군으로 `route[0]`과 `route[1]`, 즉 차량의 시작 혹은 종료지점으로 생각하고 접근했다.
+
+그리고, 그림을 천천히 보다보니 차량의 종료지점, 즉 `route[1]`을 오름차순으로 `routes`를 정렬한 뒤, 처음 카메라를 `routes[0][1]`로 잡은 후, `routes`를 검사하면서 차량의 시작 시점보다 현 카메라 설치위치가 작을 경우, 즉 `nowCamera < route[0]`이면, 새로운 카메라를 설치하면 된다는 사실을 알았다.
+
+그리디적으로 접근하면된다.
+
+```python
+# 단속카메라
+def solution(routes):
+    answer = 1
+
+    routes.sort(key=lambda x:x[1])
+    nowCamera = routes[0][1]
+    for route in routes:
+        if nowCamera < route[0]:
+            nowCamera = route[1]
+            answer += 1
+
+    return answer
+```
+
+</details>
