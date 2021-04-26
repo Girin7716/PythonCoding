@@ -1596,3 +1596,99 @@ def solution(routes):
 ```
 
 </details>
+
+---
+
+## 동굴 탐험
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/67260
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+bfs로 풀다가 결국 못풀었다...
+
+https://deok2kim.tistory.com/48 이 블로그의 코드를 분석하기로 해본다.
+
+```python
+q = deque()
+q.append(0)
+
+while q:
+    current = q.popleft()
+    # 알고보니 아직 못가는 상태
+    if current == precedeA.get(precedeB.get(current)):
+        visited[current] = 2    # 나는 준비가 되었는데 아직 위에가 준비가 안됨 = 2
+    else:
+        for neighbor in adj[current]:   # 연결된 노드들을 하나씩 보면서
+            if visited[neighbor] == 0:  # 방문하지 않았다면 q에 넣고 visited 1로 만들기
+                q.append(neighbor)
+                visited[neighbor] = 1
+
+                if precedeA.get(neighbor):  # 선행조건 일 때
+                    if visited[precedeA[neighbor]] == 2:  # 이 선행조건을 필요로 하는 친구가 준비상태이면
+                        q.append(precedeA[neighbor])  # 출발시킨다
+                        visited[precedeA[neighbor]] = 1
+
+                    precedeA[neighbor] = 0  # 선행조건이었는데 아직 이 선행조건을 필요로 하는 친구가 준비상태가 아니라면 이 선행조건을 없애준다
+```
+
+
+
+전체코드
+```python
+from collections import deque
+def solution(n, path, order):
+    answer = True
+    adj = {n: [] for n in range(n)}
+    for s, e in path:
+        adj[s].append(e)
+        adj[e].append(s)
+
+    precedeA = {}
+    precedeB = {}
+
+    for a, b in order:
+        precedeA[a] = b
+        precedeB[b] = a
+        if b == 0:
+            return False
+        if a == 0:
+            precedeA[0] = 0
+
+    visited = [0]*n
+    visited[0] = 1
+
+    q = deque()
+    q.append(0)
+
+    while q:
+        current = q.popleft()
+        # 알고보니 아직 못가는 상태
+        if current == precedeA.get(precedeB.get(current)):
+            visited[current] = 2
+        else:
+            for neighbor in adj[current]:
+                if visited[neighbor] == 0:
+                    q.append(neighbor)
+                    visited[neighbor] = 1
+
+                    if precedeA.get(neighbor):  # 선행조건 일 때
+                        if visited[precedeA[neighbor]] == 2:  # 이 선행조건을 필요로 하는 친구가 준비상태이면
+                            q.append(precedeA[neighbor])  # 출발시킨다
+                            visited[precedeA[neighbor]] = 1
+
+                        precedeA[neighbor] = 0
+
+    for i in visited:
+        if i == 0:
+            return False
+    return answer
+```
+
+</details>
