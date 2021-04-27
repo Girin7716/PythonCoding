@@ -1692,3 +1692,189 @@ def solution(n, path, order):
 ```
 
 </details>
+
+---
+
+## 경주로 건설
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/67259
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+처음에는 그냥 2차원 dp를 선언해서 bfs 돌리면서 해당 칸에 가장 최소 비용을 저장하면서 마지막에 `dp[-1][-1]`형태로 출력했으나 틀렸다.
+
+반례는 아래와 같았다.
+```python
+print(solution([[0,0,0,0,0],[0,1,1,1,0],[0,0,1,0,0],[1,0,0,0,1],[0,1,1,0,0]]))
+```
+- 즉, 이전값은 작았을지라도 방향에따라 다음값은 커질 수 있어서 오류가 난거다.
+
+그래서 방향을 고려해야하는데 처음에는 `dp[x][y][dir]`형식으로 접근했으나 이것도 실패...
+
+인터넷을 참고했다.
+
+https://inspirit941.tistory.com/264
+
+```python
+# 경주로 건설
+# 직선 도로 : 100, 코너 : 500원
+import math
+from collections import deque
+
+def solution(board):
+    answer = 0
+    n = len(board)
+    dx = [-1,1,0,0] # 상하좌우
+    dy = [0,0,-1,1] # 상하좌우
+
+    def bfs(x,y,cost,dir):
+        dp = [[math.inf for _ in range(n)] for _ in range(n)]   # 처음 출발한 방향의 bfs에서의 가장 작은 비용 구하고자 함.
+        q = deque()
+        q.append([x,y,cost,dir])
+
+        while q:
+            x,y,cost,dir = q.popleft()
+            for i in range(4):  # 상하좌우 검사
+                nx = x + dx[i]
+                ny = y + dy[i]
+
+                if i == dir:    # 현재의 방향과 다음 방향이 같으면 직선임
+                    n_cost = cost + 100
+                else:   # 다르다면 곡선임
+                    n_cost = cost + 600
+
+                # 예외범위는 무시, dp[nx][ny] <= n_cost의 경우 기존의 값이 더 최소 비용이므로 무시
+                if nx < 0 or nx >= n or ny < 0 or ny>=n or board[nx][ny] != 0 or dp[nx][ny] <= n_cost:
+                    continue
+                # 다음 좌표에 n_cost넣고
+                dp[nx][ny] = n_cost
+                # bfs 큐에 넣어줌
+                q.append((nx,ny,n_cost,i))
+        # 최종적으로 최소비용이 dp[-1][-1]에 저장됨
+        return dp[-1][-1]
+
+    answer = min(bfs(0,0,0,1),bfs(0,0,0,3)) # 처음 좌표 0,0에서 bfs 방향은 아래와 오른쪽 뿐이므로 두개를 돌려서 값이 가장 작은값을 출력하면 됨.
+
+    return answer
+```
+
+
+
+
+이것도 못풀었다... 열심히해야할듯
+
+</details>
+
+---
+
+## 보석 쇼핑
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/67258
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+```python
+# [카카오 인턴] 보석 쇼핑
+def solution(gems):
+    n = len(set(gems))  # 보석 종류 개수
+    answer = [0, len(gems)-1]   # 초기값은 처음~끝
+    start,end = 0,0
+    diction = {gems[0]:1}   # 0번째 보석을 담았다는 뜻
+
+    while start < len(gems) and end < len(gems):
+        if len(diction) == n:   # 가지고 있는 보석이 종류별로 있으면
+            if answer[1] - answer[0] > end - start: # 근데 기존에 있던 것보다 보석이 더 적으면 update
+                answer[0] = start
+                answer[1] = end
+            if diction[gems[start]] == 1:   # start의 보석이 하나이면
+                del diction[gems[start]]    # 없애기
+            else:
+                diction[gems[start]] -= 1   # start보석 하나 줄이기
+            start += 1  #start index 하나 높이기
+        else:
+            end += 1    #end index 하나 높이기
+            if end == len(gems):    #end가 범위를 넘어가면 그만
+                break
+            else:
+                if diction.get(gems[end]) is None:  # 처음보는 보석이면 담기
+                    diction[gems[end]] = 1
+                else:   
+                    diction[gems[end]] += 1
+    answer[0] += 1
+    answer[1] += 1
+    return answer
+
+```
+
+</details>
+
+---
+
+## 크레인 인형 뽑기
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/64061
+
+</details>
+
+<details>
+<summary>풀이방법</summary>
+
+문제에서 주어진대로 구현하면 됨.
+
+주어진 `moves`를 순차적으로 보면서, `board[i][moves-1]`를 확인하면서 0이 아닌 값이 나오면 해당 값은 stack에 넣어주고 0으로 바꾸면 된다.
+
+그 후, stack을 확인해서 원소가 2개보다 많으면서 제일 위와 그 다음 값이 같다면 두 개를 pop한 뒤 answer+=2를 하면 끝.
+
+</details>
+
+---
+
+## 튜플
+
+<details>
+<summary>링크</summary>
+
+https://programmers.co.kr/learn/courses/30/lessons/64065
+
+</details>
+
+
+<details>
+<summary>풀이방법</summary>
+
+`s`를 파싱하고, 원소의 길이 순으로 sorting한다.
+```python
+s = s.replace('},{','/')
+s = s.replace('{','')
+s = s.replace('}','')
+s = s.split('/')
+s.sort(key= lambda x : len(x))
+```
+
+set을 하나 선언해서 s를 순차적으로 확인하며 set에 없는 원소가 있으면 set에 넣어주고 answer에도 append해준다.
+```python
+rem = set()
+for number in s:
+    for n in number.split(','):
+        if n not in rem:
+            rem.add(n)
+            answer.append(int(n))
+            break
+```
+
+</details>
