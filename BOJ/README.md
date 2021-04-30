@@ -2044,3 +2044,61 @@ def sharkPosition(board,x,y,d):
 - 그래서 물고기가 없다면 break가 아닌 continue로 넘겨야한다.
 
 </details>
+
+---
+
+## Q15591
+
+<details>
+<summary>MooTube (Silver)</summary>
+
+- 링크 : https://www.acmicpc.net/problem/15591
+
+### 풀이방법
+
+문제 이해가 어려웠다...
+
+결론적으로는 node : 동영상, edge : 유사도 로 무향 그래프를 만든 후, `v` node 부터 시작해서 bfs 진행하면서 edge의 cost가 `k`보다 크거나 같다면 해당 노드의 동영상을 추천해주면 된다.
+
+```python
+# MooTube(Silver)
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+N,Q = map(int,input().split())
+graph = [[] for _ in range(N+1)]
+
+# 무향 그래프 생성
+for i in range(N-1):
+    p,q,r = map(int,input().split())
+    graph[p].append((r,q))
+    graph[q].append((r,p))
+
+def bfs(k,v):
+    queue = deque()
+    visited = [False] * (N+1)
+    answer = 0
+
+    queue.append(v)
+
+    while queue:
+        now = queue.popleft()
+        visited[now] = True
+        for cost,nxt in graph[now]:
+            if visited[nxt] is True:
+                continue
+            # cost(유사도)가 k보다 크거나 같다면 추천해줘야함.
+            if cost >= k:
+                answer+=1
+                queue.append((nxt))
+
+    return answer
+
+# 농부 질문에 답하기
+for i in range(Q):
+    k,v = map(int,input().split())
+    print(bfs(k,v)) # v번 노드부터 bfs 실행
+```
+
+</details>
